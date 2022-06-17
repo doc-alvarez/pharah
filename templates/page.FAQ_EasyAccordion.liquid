@@ -1,0 +1,7 @@
+<style>.page-title{margin-bottom:40px;}</style>
+<div class="container">
+  <!-- <h1 class="text-center page-title">{{ page.title }}</h1> -->
+  <div class="content-block--page">
+    {% assign content = page.content | replace: '&lt;!-- acsplit --&gt;', '<!-- acsplit -->' | split: '<!-- acsplit -->' %}{% for c in content %}{% render 'product-description-slider-page' with c %}{% endfor %}
+  </div>
+</div>

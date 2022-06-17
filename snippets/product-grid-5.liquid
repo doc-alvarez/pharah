@@ -1,0 +1,115 @@
+<!-- product-grid-5.liquid -->
+<div class="product-card js-product-card product-card--style1 product-card--style5" data-price="{{ product.price }}">
+    <div class="product-card__image-wr overflow-hidden">
+      {% if product.tags contains 'default-glue' %}
+        {% for _product in collection.products %}
+          {% if _product.title == product.title %}
+          {%- assign image = _product.featured_image -%}
+          <a class="product-card__image js image-content__image-wrapper {% unless _product.tags contains 'default-glue' %}customHide{% endunless%}" href="{{ _product.url | within: collection }}" style="max-width: 680px;padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;" data-image-id="{{ image.id }}">
+            {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img loading="lazy" class="lazyload transition first-image"
+                 data-src="{{ img_url }}"
+                 src="{%- include 'srcBlank' -%}"
+                 data-sizes="auto"
+                 alt="{{ image.alt | escape }}">
+                 {% include 'second-image' product: _product%}
+          </a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+      {%- assign image = product.featured_image -%}
+      <a class="product-card__image js image-content__image-wrapper" href="{{ product.url | within: collection }}" style="max-width: 680px;padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;" data-image-id="{{ image.id }}">
+        {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+        <img loading="lazy" class="lazyload transition first-image"
+             data-src="{{ img_url }}"
+             src="{%- include 'srcBlank' -%}"
+             data-sizes="auto"
+             alt="{{ image.alt | escape }}">
+             {% include 'second-image'%}
+      </a>
+      {% endif %}
+      <div class="product-card__overlay d-flex justify-content-center flex-column product-card__overlaytop">
+        {%- if settings.enable_wishlsit -%}
+        <span data-toggle="tooltip" data-placement="left" data-tooltipalltimes="true" class="btn btn-theme gradient-theme-vertical product-card__overlay-btn js-btn-wishlist" title="{{ 'products.product.wishlist_text' | t }}" data-handle="{{product.handle}}">
+          {%- include 'icon-heart' -%}
+        </span>
+        {%- endif -%}
+      </div>
+      {%- if settings.qv_box -%}
+      <div  class="product-card__overlay d-flex justify-content-center flex-row product-card__overlaybottom">
+        <span data-tooltip="false" data-placement="left" class="btn btn-theme gradient-theme-vertical product-card__overlay-btn js-btn-quickview" title="{{ 'products.product.quickview_text' | t }}" data-toggle="modal" data-target="#jsQuickview" data-handle="{{product.handle}}" data-pavailable="{% if product.available %}true{% else %}false{% endif %}">
+        <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="svg-inline--fa fa-plus fa-w-12 fa-3x"><path fill="currentColor" d="M376 232H216V72c0-4.42-3.58-8-8-8h-32c-4.42 0-8 3.58-8 8v160H8c-4.42 0-8 3.58-8 8v32c0 4.42 3.58 8 8 8h160v160c0 4.42 3.58 8 8 8h32c4.42 0 8-3.58 8-8V280h160c4.42 0 8-3.58 8-8v-32c0-4.42-3.58-8-8-8z" class=""></path></svg>
+          <span>{{ 'products.product.quickview_text' | t }}</span>
+          </span>
+      </div>
+      {%- endif -%}
+
+
+      {%- if settings.enable_countdown_card -%}{%- include 'product-countdown' -%}{%- endif -%}
+
+      {%- if settings.enablevideo -%}
+      {% for media in product.media %}
+        {% render 'productVideo', media: media %}
+      {% endfor %}
+      {%- endif -%}
+
+      {% include 'product-label' %}
+    </div>
+    <div class="product-card__info">
+  	  <div class="p_data" style="display: flex; justify-content: space-between; line-height:1.5;align-items: flex-start;">
+      <a href="{{ product.url | within: collection }}" title="{{product.title}}" class="product-card__name h4 m-0{% if settings.t_product %} text-uppercase {% endif %}">{{ product.title }}</a>
+      {%- if product.available -%}
+      <div class="product-card__price font-family-1 mt-0 d-inline-block">
+        {%- if product.compare_at_price > product.price -%}
+        {%- if product.price_varies -%}
+        {%- assign sale_price = product.price | money -%}
+        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+        {%- else -%}
+        <span id="targetPrice" class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+        {{ product.price | money }}
+        <s class="product-card__regular-price">{{ product.compare_at_price | money }}</s>
+        <span id="targetPrice" class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+
+        {%- endif -%}
+        {%- else -%}
+        {%- if product.price_varies -%}
+        {%- assign price = product.price | money -%}
+        {{ 'products.product.from_text_html' | t: price: price }}
+        {%- else -%}
+        <span id="targetPrice" class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+        {{ product.price | money }}
+        {%- endif -%}
+
+        {%- endif -%}
+      </div>
+      {%- else -%}
+      <div class="product-card__availability">
+        {{ 'products.product.sold_out' | t }}
+      </div>
+      {%- endif -%}
+      </div>
+      {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true, product: product %}
+
+      {%comment%}{%- include 'swatch-grid-1' -%}{% endcomment %}
+
+    </div>
+    
+      <div style="display: flex; align-items: flex-start; justify-content: flex-start;" class="categories">
+        <div class="opt_container" style="display: flex; gap: 5px; order: 1; margin-bottom: 5px;">
+          {% for _product in collection.products %}
+            {% if _product.title == product.title %}
+              <div id="picker_btn_container" class="small_container {% unless _product.tags contains 'hidden-glue' %} checked" style="order: 1" {% else %} " style="order: 2" {% endunless %}>
+                <button style="background: linear-gradient( -270deg, {{ _product.metafields.category.color }}, {{ _product.metafields.category.color }} 49%, {{ _product.metafields.category.color }} 49%, {{ _product.metafields.category.color }} 51%, {{ _product.metafields.category.color2 }} 51% );" id="picker_btn" onclick="pickerHandler(event)" data-title="{{ _product.title }}" data-variant-title="{{ _product.variants[0].title }}" data-image-id="{{ _product.featured_image.id }}" data-price="{{ _product.price | divided_by: 100 }}" data-href="{{_product.url | within: collection }}" type="button"></button>
+              </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+          <div class="var_container" style="font-size: 12px; max-height: 22px; order: 2; text-align: left;">
+            {% assign titles = product.variants[0].title | split: "/" %}
+            {% assign titles2 = titles[0] | split: "|" %}
+            {{ titles2[0]}} {% if titles2[1] != nil %}{{ titles2[1] | prepend: "|"}}{% endif %}
+          </div>
+      </div>
+ 
+
+  </div>

@@ -1,0 +1,28 @@
+{%- if section.settings.learnmore -%}
+
+{%- assign pageMore = pages[section.settings.learmore_page] -%}
+<a href="javascript:void(0)" data-toggle="modal" data-target="#jslearmore" class="open-learmore">
+  
+  {{section.settings.learmore_title | default: 'Learn More'}}
+</a>
+<div class="modal fade" id="jslearmore" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog--learmore modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">{%- include 'icon-close' -%}</button>
+      </div>
+      <div class="modal-body px-4 pb-4 pt-2">
+        <h4 class="text-center hide">{{pageMore.title}}</h4>
+        <div class="row justify-content-center js-learmore-content">
+          <div class="col-12">
+          {{pageMore.content}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .modal-dialog--learmore img{width:100%}.open-learmore{color:#222;text-decoration:underline !important;display: block;text-transform:none;font-size: 12px;font-weight: 600;text-decoration: none;}.open-learmore i{margin-right:5px}.js-learmore-content td,.js-learmore-content th{border:1px solid rgba(0,0,0,.1)}@media (min-width:992px){.open-learmore{}}
+</style>
+{%- endif -%}

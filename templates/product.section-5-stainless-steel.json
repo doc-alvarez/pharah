@@ -1,0 +1,355 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-template-1",
+      "settings": {
+        "enable_hurrify": false,
+        "stock_enable": true,
+        "enable_payment_button": true,
+        "social_sharing_products": false,
+        "next_prev_enable": true,
+        "product_vendor_enable": false,
+        "product_type_enable": false,
+        "variant_sku_enable": false,
+        "variant_available_enable": false,
+        "wailist": true,
+        "product_selector": "radio",
+        "sizeguide_enable": true,
+        "sizeguide_title": "Size guide",
+        "sizeguide_page": "size-guide-1",
+        "fake_view_enable": false,
+        "fake_view_min": 12,
+        "fake_view_max": 30,
+        "fake_view_duration": 3,
+        "fake_view_text_prefix": "Currently there are",
+        "fake_view_text_suffix": "peoples are currently looking at this product",
+        "gtab_des": "Description",
+        "gtab_review_enable": false,
+        "gtab_review": "Review",
+        "positiontab": "right",
+        "enable_tabvertical": false,
+        "stab_title1": "Specific tab 1",
+        "stab_title2": "Specific tab 2",
+        "stab_title3": "Specific tab 3",
+        "stab_title4": "Specific tab 4",
+        "enable": false,
+        "mix_1": "#262626",
+        "mix_2": "#c0c0c0",
+        "text_cl": "#ffffff",
+        "cart_bg": "#35bb5a",
+        "cart_cl": "#ffffff"
+      }
+    },
+    "163636527228979968": {
+      "type": "backgroundvideo",
+      "disabled": true,
+      "settings": {
+        "animation": "fade",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "full",
+        "align": "center",
+        "padding_desktop": 220,
+        "padding_mobile": 80,
+        "bg_box": "#ffffff",
+        "opacity_bgbox": 0,
+        "bg_overlay": "#000000",
+        "opacity_bg_overlay": 0,
+        "title": "PERFECT FOR TRAVEL WORKOUTS. EASY TO STORE",
+        "title_color": "#ffffff",
+        "subtext": "",
+        "subtitle_color": "#ffffff",
+        "button": "discover now",
+        "link": "",
+        "link_video": "https:\/\/cdn.shopify.com\/s\/files\/1\/0077\/0034\/9041\/files\/My_Movie_1.mp4?v=1621777302"
+      }
+    },
+    "1636366200693818f7": {
+      "type": "image-content",
+      "blocks": {
+        "1636366200693818f7-0": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Shipping_Companies_-_3.1.png"
+          }
+        },
+        "1636366200693818f7-1": {
+          "type": "text_block",
+          "settings": {
+            "bgtext": "#fefefe",
+            "title": "",
+            "text": "<div class=\"px-lg-4\">\n<span class=\"subtop d-block\">free shipping<\/span>\n<h3>Shipping cost\/time and refunds<\/h3>\n<br>\nShipping is free on all worldwide orders. Delivery time:<br><br>\n\nUnited States: 5-8 days<br>\nUnited Kingdom: 4-6 days<br>\nCanada: 7-10 days<br>\nAustralia &amp; New Zealand: 7-10 days<br>\nEurope: 6-8 days<br>\nAll other countries: 8-12 days\n<br><br>\nAfter placing your order you can track it to your door.\n<br><br>\nAll orders come with a 30-day no-hassle return policy!<\/div>",
+            "align": "left"
+          }
+        }
+      },
+      "block_order": [
+        "1636366200693818f7-0",
+        "1636366200693818f7-1"
+      ],
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 130px 0px",
+        "paddingmobile": "0px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#fefefe",
+        "setwidth": "container",
+        "enable_padding": true,
+        "align_center": true
+      }
+    },
+    "1639474222952887db": {
+      "type": "apps",
+      "blocks": {
+        "6c4c307c-3a80-409b-90c1-b09445a7ee7f": {
+          "type": "shopify:\/\/apps\/judge-me-product-reviews\/blocks\/review_widget\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "6c4c307c-3a80-409b-90c1-b09445a7ee7f"
+      ],
+      "settings": {}
+    },
+    "1637850981398557a5": {
+      "type": "advanced-content",
+      "blocks": {
+        "04aee298-1299-4179-b663-14e443afe1ba": {
+          "type": "bgvideo",
+          "settings": {
+            "width": "50%",
+            "link_video": "https:\/\/cdn.shopify.com\/s\/files\/1\/0574\/9263\/5819\/files\/Pharah_-_BG_Video_-_1.2.mp4?v=1641568401"
+          }
+        },
+        "16378509817e3a81bc-0": {
+          "type": "html",
+          "settings": {
+            "code": "<br><br><div class=\"px-lg-4\">\n<span class=\"subtop d-block\">PHARAH VISION<\/span>\n<h3>Say goodbye to the traditional 10x markups!<\/h3>\n<br>Pharah's unique collection of jewelry is crafted from quality materials like Sterling Silver. Our mission is to make beautiful, high-quality jewelry that everyone can afford!<br><br>\n\nWe are chosen by people who appreciate minimalism and simplicity. Our products delicately set accents in your look and complement the personality of their owner.<br><br>\n\nWhether you’re getting a gift, a birthday present, or just a treat for yourself – we have something for everyone!<br><br>\n\nBy supporting our brand you are enabling us to continue creating new designs ❤️<\/div><br><br>",
+            "width": "50%",
+            "align": "auto"
+          }
+        }
+      },
+      "block_order": [
+        "04aee298-1299-4179-b663-14e443afe1ba",
+        "16378509817e3a81bc-0"
+      ],
+      "settings": {
+        "animation": "",
+        "paddingsection": "60px 0px 0px 0px",
+        "paddingmobile": "60px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "zindex": "0",
+        "bgsection": "#fefefe",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "title_top": "",
+        "title": "",
+        "des": "",
+        "setwidth": "container",
+        "padding": true
+      }
+    },
+    "16363657535b45e450": {
+      "type": "image-content",
+      "disabled": true,
+      "blocks": {
+        "16363657535b45e450-1": {
+          "type": "text_block",
+          "settings": {
+            "bgtext": "#fefefe",
+            "title": "",
+            "text": "<div class=\"px-lg-4\">\n<span class=\"subtop d-block\">Pharah QUALITY<\/span>\n<h3>Real stainless steel<\/h3>\nSteel contains carbon, nickel and chromium. In order for steel to be considered stainless, it must contain at least 12 percent chromium. Chromium makes the steel stainless by creating an invisible top layer that prevents oxygen from rusting and otherwise corroding the steel surface. This means that stainless steel jewelry will not rust or tarnish.<br><br>\n\nThe 316L serves more elegance, affordability, and durability, becoming an immediate choice for many women. Compared to gold and silver, stainless steel jewelry’s versatility makes women ditch the classy to have jewelry that easily blends with attires and occasions. Again, stainless steel's intrinsic characteristics dictate its use in everyday life, including the daily household chores becoming the ultimate choice for many women.<\/div><br>",
+            "align": "left"
+          }
+        },
+        "16363657535b45e450-0": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/enfashion-avocado-chain-necklace-for-wom_main-2.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "16363657535b45e450-1",
+        "16363657535b45e450-0"
+      ],
+      "settings": {
+        "animation": "",
+        "paddingsection": "130px 0px 0px 0px",
+        "paddingmobile": "30px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#fefefe",
+        "setwidth": "container",
+        "enable_padding": true,
+        "align_center": true
+      }
+    },
+    "16382705549b305bd5": {
+      "type": "advanced-content",
+      "blocks": {
+        "1638270554a35bfc26-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"ddshopfaq-wrapper\"><\/div>",
+            "width": "100%",
+            "align": "auto"
+          }
+        }
+      },
+      "block_order": [
+        "1638270554a35bfc26-0"
+      ],
+      "settings": {
+        "animation": "",
+        "paddingsection": "60px 0px 0px 0px",
+        "paddingmobile": "60px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "zindex": "0",
+        "bgsection": "#fefefe",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "title_top": "",
+        "title": "Frequently Asked Questions",
+        "des": "",
+        "setwidth": "container",
+        "padding": true
+      }
+    },
+    "163647579309eea855": {
+      "type": "product-list",
+      "settings": {
+        "animation": "",
+        "paddingsection": "60px 0px 0px 0px",
+        "paddingmobile": "30px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "title_top": "",
+        "title": "You might also like",
+        "des": "",
+        "collection": "best-sellers",
+        "arrows": true,
+        "draggable": true,
+        "dots": true,
+        "infinite": true,
+        "rows": "1",
+        "limit": 10,
+        "show": 6
+      }
+    },
+    "1637850832c4595518": {
+      "type": "image-content",
+      "disabled": true,
+      "blocks": {
+        "163785083255913add-0": {
+          "type": "image_block",
+          "settings": {}
+        },
+        "163785083255913add-1": {
+          "type": "text_block",
+          "settings": {
+            "bgtext": "#fefefe",
+            "title": "",
+            "text": "<div class=\"px-lg-4\">\n<span class=\"subtop d-block\">ABOUT PHARAH<\/span>\n<h3>LACONIC JEWELRY <\/h3>\nOur products delicately set accents in your look and complement the personality of their owner.<br><br>\n\nPharah's unique collection of jewelry crafted from real gold or sterling silver. Our mission is to make beautiful, high quality jewelry that everyone can afford!<br><br>\n\nPharah will be appreciated by those who are \"tired\" of the pretentiousness of mass jewelry: large and pompous. We are chosen by people who appreciate naturalness and simplicity. These are the things that inspire us in our creative way.<br><br>\n\nSay goodbye to the industry’s traditional 10x markups!<\/div>",
+            "align": "left"
+          }
+        }
+      },
+      "block_order": [
+        "163785083255913add-0",
+        "163785083255913add-1"
+      ],
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#fefefe",
+        "setwidth": "container",
+        "enable_padding": true,
+        "align_center": true
+      }
+    },
+    "1636366375db64efc3": {
+      "type": "parallax-banner",
+      "disabled": true,
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "80px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container-fluid",
+        "align": "left",
+        "padding_desktop": 220,
+        "padding_mobile": 80,
+        "bg_box": "#ffffff",
+        "opacity_bgbox": 0.8,
+        "bg_overlay": "#262613",
+        "opacity_bg_overlay": 0.1,
+        "title": "GOLD &nbsp&nbsp&nbsp",
+        "title_color": "#262613",
+        "subtext": "Look at our gold collection",
+        "overwritecolor": true,
+        "subtitle_color": "#262613",
+        "button": "discover now",
+        "link": "https:\/\/pharah.co\/collections\/gold",
+        "parrallax_enable": true,
+        "image": "shopify:\/\/shop_images\/AVEditorial10-205423_1920x2880_6c16f776-508e-4a49-8441-65397c27e061.jpg"
+      }
+    },
+    "1638713291f36828ce": {
+      "type": "advanced-content",
+      "disabled": true,
+      "blocks": {
+        "16387132914cc8a56a-0": {
+          "type": "html",
+          "settings": {
+            "code": "",
+            "width": "100%",
+            "align": "auto"
+          }
+        }
+      },
+      "block_order": [
+        "16387132914cc8a56a-0"
+      ],
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "zindex": "0",
+        "bgsection": "#fefefe",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "title_top": "",
+        "title": "",
+        "des": "",
+        "setwidth": "container",
+        "padding": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "163636527228979968",
+    "1636366200693818f7",
+    "1639474222952887db",
+    "1637850981398557a5",
+    "16363657535b45e450",
+    "16382705549b305bd5",
+    "163647579309eea855",
+    "1637850832c4595518",
+    "1636366375db64efc3",
+    "1638713291f36828ce"
+  ]
+}

@@ -1,0 +1,180 @@
+<!-- productOption.liquid -->
+{%- if section.settings.product_selector == 'radio' -%}
+{%- assign isColor = false -%}
+{%- assign optionName = option.name | handleize -%}
+{%- if optionName contains 'colo' -%}
+{%- assign isColor = true -%}
+{%- endif -%}
+<fieldset class="single-option-radio"
+          name="{{ option.name | handleize }}"
+          id="ProductSelect-option-{{ forloop.index0 }}"
+          {% if optionName contains "size" %}
+          style="display: flex; gap: 10px; margin-bottom: 20px; flex-flow: wrap;"
+          {% endif %}
+          >
+  {%- assign option_index = forloop.index -%}
+  {%- for value in option.values -%}
+    {%- assign variant_label_state = true -%}
+    {%- if product.options.size == 1 -%}
+      {%- unless product.variants[forloop.index0].available -%}
+        {%- assign variant_label_state = false -%}
+      {%- endunless -%}
+    {%- endif -%}
+    {%- for variant in product.variants  %}
+      {%- assign vOption = 'option' | append: option_index -%}
+      {%- if value ==  variant[vOption] -%}
+        {%- assign currenVariant = variant -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- assign hasImage = false -%}
+  {%- if isColor and currenVariant.image -%}
+    {%- assign hasImage = true -%}
+  {%- endif -%}
+  {%- assign swatch_file_extension = 'png' -%}
+  <input type="radio"
+        {% if option.selected_value == value -%} checked="checked"{%- endif %}
+        {% unless variant_label_state -%} disabled="disabled"{%- endunless %}
+         value="{{ value | escape }}"
+         data-index="option{{ option_index }}"
+         name="{{ option.name | handleize }}"
+         class="single-option-selector-{{ section.id }} single-option-selector__radio{% unless variant_label_state %} disabled{% endunless %}"
+         id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+    {% if isColor == true %}
+      <p class="optionName">
+        {{value}}
+      </p>
+      {% endif %}
+      <div class="labelContainer" style="display: flex; gap: 5px;">
+        <label {% if isColor == true %} id="main" style="{%if product.tags contains 'default-glue' %}order: 1;{% else %}order:2;{% endif %}padding: 0 !important; min-width: 32px !important; width: 32px; height: 32px; min-height: 32px !important; border-radius: 50%; background-color: white; display: flex;align-items: center;justify-content: center;" {%else%} id="otherMain" onclick="handleSize(event)" {% endif %}
+          {% if option.selected_value == value and isColor == true %} class="selected_variant"{% endif %}
+          {% if option.selected_value == value and option.name == "Size" %} class="selected_label"{% endif %}
+          {% if hasImage %}data-tooltip="true" title="{{ value | escape }}"
+          {%- if settings.sw_color_product -%}
+            style="background-color:{{ value | escape }};background-image: url({{ value | handle | append: '.' | append: swatch_file_extension | file_img_url: '50x' | prepend: 'https:' | split: '?' | first }})"
+          {% else %}
+            style="background-image:url({{currenVariant.image.src | img_url:'100x'}})"
+          {% endif %}
+          {% endif %}
+          {% if option.selected_value == value and option.name contains "size" %} class="selected_label"{% endif %}
+          for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"{% unless variant_label_state %} class="disabled"{% endunless %}>
+          {% if isColor == true %}
+            <span
+            style="background: linear-gradient( -270deg, {{ product.metafields.category.color }}, {{ product.metafields.category.color }} 49%, {{ product.metafields.category.color }} 49%, {{ product.metafields.category.color }} 51%, {{ product.metafields.category.color2 }} 51% );" id="picker">
+          </span>
+          {% endif %}
+          {%- unless hasImage or isColor == true -%}{{ value | escape }}{%- endunless -%}
+        </label>
+
+        {% if isColor == true and product.tags contains 'default-glue' or product.tags contains 'hidden-glue' %}
+            {% for collection in product.collections %}
+                {% for _product in collection.products %}
+                {% assign lowerHandle = product.type | downcase %}
+                    {% if _product.title == product.title and _product.handle != product.handle %}
+                      {% if lowerHandle == collection.handle or collection.handle == 'necklaces' %}
+                        <a href="{{ _product.url }}" class="anchor" style="{%if _product.tags contains 'default-glue' %}order: 1;{% else %}order:2;{% endif %}">
+                          <label id="otherLabel" data-tooltip="true" style="border: transparent; padding: 0 !important; min-width: 32px !important; width: 32px; height: 32px; min-height: 32px !important; border-radius: 50%; background-color: white; display: flex;align-items: center;justify-content: center;">
+                            <span id="picker"
+                            style="background: linear-gradient( -270deg, {{ _product.metafields.category.color }}, {{ _product.metafields.category.color }} 49%, {{ _product.metafields.category.color }} 49%, {{ _product.metafields.category.color }} 51%, {{ _product.metafields.category.color2 }} 51% )"
+                            ></span>
+                          </label>
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+      </div>
+  {%- endfor -%}
+</fieldset>
+{%- else -%}
+<select class="single-option-selector single-option-selector-{{ section.id }} product-form__input"
+        id="SingleOptionSelector-{{ forloop.index0 }}"
+        data-name="{{ option.name }}"
+        data-index="option{{ forloop.index }}">
+  {%- for value in option.values -%}
+  <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+  {%- endfor -%}
+</select>
+{%- endif -%}
+
+<script>
+  window.onload = function() {
+    document.querySelectorAll('input[name="color"]').forEach((node,index) => {
+    node.addEventListener('change', (e) => {
+      document.querySelectorAll('input[name="color"]').forEach(inp => {
+        if (inp.checked) {
+          inp.nextElementSibling.nextElementSibling.children[0].classList.add('selected_variant');
+        } else {
+          inp.nextElementSibling.nextElementSibling.children[0].classList.remove('selected_variant');
+        }
+      })
+
+    })
+})
+  }
+  function handleSize(event) {
+    document.querySelectorAll('label#otherMain').forEach(node => {
+      node.classList.remove('selected_label');
+    })
+    event.target.classList.add('selected_label');
+
+  }
+</script>
+{% if isColor == true %}
+<style>
+  .optionName {
+    margin: 10px 0 0 0 !important;
+  }
+  .selected_variant {
+    border: 2px solid #b8b8b8 !important;
+  }
+  #otherLabel:hover {
+    transition: all ease-in-out 400ms;
+    border: 2px solid #b8b8b8 !important;
+  }
+  #picker {
+    border-radius: 50%;
+    width: 50vw;
+    height: 50vw;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+{% if option.values.size == 1 %}
+  label#main {
+    border: 2px solid #b8b8b8 !important;
+  }
+  {% endif %}
+
+
+  label#otherMain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    {% if option.values.size > 1 %}
+    width: 40px;
+    height: 40px;
+    {% endif %}
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+  }
+  label#otherMain:hover {
+    color: white;
+    background-color: black;
+  }
+  label.selected_label {
+    color: white !important;
+    background-color: black !important;
+  }
+  @media (min-width: 760px) {
+    .product-single__info-wrapper.js-stick-parent {
+      padding: 0 25px !important;
+    }
+  }
+  .jdgm-rev-widg__title {
+    margin-bottom: 36px !important;
+  }
+</style>
+{% endif %}

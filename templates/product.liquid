@@ -1,0 +1,70 @@
+{%- case settings.productpage -%}
+  {%- when 'product-1' -%} {%- section 'product-template-1' -%}
+  {%- when 'product-2' -%} {%- section 'product-template-2' -%}
+  {%- when 'product-3' -%} {%- section 'product-template-3' -%}
+  {%- when 'product-4' -%} {%- section 'product-template-4' -%}
+  {%- when 'product-5' -%} {%- section 'product-template-5' -%}
+  {%- when 'product-6' -%} {%- section 'product-template-6' -%}
+  {%- when 'product-7' -%} {%- section 'product-template-7' -%}
+  {%- when 'product-8' -%} {%- section 'product-template-8' -%}
+  {%- when 'product-9' -%} {%- section 'product-template-9' -%}
+  {%- when 'product-10' -%} {%- section 'product-template-10' -%}
+{%- else -%}
+  Missing liquid
+{%- endcase -%}
+
+<div data-xxx="{{settings.productpage}}"></div>
+<style>
+  .jdgm-rev-widg__title{text-align:center!important;}
+    </style>
+
+  <script type="text/javascript">
+    console.log('I am in')
+  var _learnq = _learnq || [];
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>
+
+  <script type="text/javascript">
+    var _learnq = _learnq || [];
+    document.getElementById("AddToCart-template--15279156232363__main").addEventListener('click',function (){
+       _learnq.push(['track', 'Added to Cart', item]);
+    });
+  </script>
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+      document.querySelectorAll(".py-4")[1].appendChild(document.querySelector("#judgeme_product_reviews"));
+    })
+  </script>
+
+
+<div class="elfsight-sapp-d8b255b8-2f2f-45a6-84db-7a6a730c2edf" style="display: flex; justify-content: center;"></div>
+{% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: true, auto_install: true, product: product %}
+
+
+<script src="https://widget.sezzle.com/v1/javascript/price-widget?uuid=32a85b25-ce04-4ac4-bbc3-d3c62d522556"></script>
+
+{% section 'sezzle-widget' %}
+

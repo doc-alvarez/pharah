@@ -1,0 +1,53 @@
+<div class="row">
+  {%- if link.links != blank -%}
+  {%- for childlink in link.links -%}
+  <div class="col-sm-{{ settings[ap_col_links] }}">
+    <div class="mega-col-inner ">
+      <div class="menu-title">
+        <a style="font-size: 18px;" href="{{ childlink.url }}" >
+          {%- include 'processMenuTitle' with itemName:childlink.title -%}
+          {%- include 'processMenuLabel' with itemName:childlink.title -%}
+        </a>
+      </div>
+      {% assign dropAsset = "drop" | append: forloop.index %}
+      <div class="imgContainer" style="overflow: hidden;">
+        <img class="drop" loading="lazy" src="{{ settings[dropAsset] | image_url: width: 200, height: 200}}" alt="">
+      </div>
+      
+      <div class="widget-inner">
+        <ul class="nav-links">
+          {%- if childlink.links != blank -%}
+          {%- for grandchildlink in childlink.links -%}
+          <li>
+            <a href="{{ grandchildlink.url }}" >
+              {%- include 'processMenuTitle' with itemName:grandchildlink.title -%}
+              {%- include 'processMenuLabel' with itemName:grandchildlink.title -%}
+            </a>
+          </li>
+          {%- endfor -%}
+          {%- endif -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {%- endfor -%}
+  {%- endif -%}
+</div>
+<style>
+  img.drop {
+    transition: all ease 500ms;
+  }
+  img.drop:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+  .mega-col.col-sm-6.order- .row {
+    flex-wrap: nowrap;
+  }
+  .menu-title a:hover {
+    color: #c99a5c;
+  }
+  /* img.drop {
+    box-shadow: 0 0 5px 2px #555d60;
+  } */
+</style>

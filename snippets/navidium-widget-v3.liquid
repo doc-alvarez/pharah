@@ -1,0 +1,725 @@
+{% if shop.metafields.navidium.nvd_show_cart == 1 %}
+{% assign auto_insurance = false %}
+{% if shop.metafields.navidium.nvd_auto_insurance == 1 %}{% assign auto_insurance = true %}{% endif %}
+
+    {{ 'nvd-styles.aio.min.css' | asset_url | stylesheet_tag }}
+    {% if template.name != 'cart' %}
+    <style>
+    .appearance-right-previw .img {
+      max-width: 30px;
+      height: 36px;
+    }
+    .navidium-shipping-icon {
+        max-width: 35px;
+    }
+    .appearance-right-previw .img svg {
+      right: 0px;
+      bottom: 5px;
+      width: 10px;
+      height: 16px;
+    }
+    .appearance-right-previw .ms-3Cstm {
+        margin-left: 0;
+    }
+    .appearance-right-previw .d-flexCstm p {
+        font-size: 10px;
+    }
+    .appearance-right-previw .d-flexCstm p {
+        min-width: 180px;
+    }
+    </style>
+    {% endif %}
+    <script src="{{ 'nvd-js-asset.aio.min.js' | asset_url }}"></script>
+    <script>
+     $.noConflict();
+    //protection type
+    {% assign protection_type_nvd = shop.metafields.navidium.nvd_protection_type | plus: 0 %}
+        let nvd_init = async () => {
+          //console.log('Came here');
+            const cart = await fetch("/cart.js");
+            const cartData = await cart.json();
+          //check if the cart is empty or not
+          if(cartData.total_price > 0){
+                //first check if there is already a shipping protection 
+                  var data2 = cartData.items;
+                  var nvd_counter = 0;
+                  var regular_counter = 0;
+                  var matched_protection = '';
+                  data2.forEach(function(item, index){
+                      console.log(item.handle);
+                      if(item.handle == 'navidium-shipping-protection'){ 
+                        var itsVariantID = item.variant_id;
+                        //this means this item is in the cart
+                         if(localStorage.shippingProtectionVariant != undefined || localStorage.shippingProtectionVariant != null){
+                           var exisitingProtectedVariant = localStorage.shippingProtectionVariant;
+                           if(itsVariantID != exisitingProtectedVariant){
+                             //this means the variant id does not match the activated one
+                             //well, remove it now
+                             removeDupeShippingProtection(itsVariantID);
+                                   console.log('Protection did not match. Removing now.');
+                           }else{
+                                   console.log('Protection matched. No need to worry.');
+                                matched_protection = itsVariantID;
+                           }
+                         }else{
+                             //this means shipping protection is available but our localstorage is empty
+                             //remove it now
+                             removeDupeShippingProtection(itsVariantID);
+                                console.log('No log but protection is present. Removing now.');
+                         }
+                      }else{
+                          //non protection
+                        regular_counter = regular_counter+item.quantity ;
+                      }
+                  });
+            
+                  //check if cart is empty other than navidium
+                  if(regular_counter == 0 && matched_protection != ''){
+                        console.log('cart is empty other than navidium');
+                        removeShippingProtectionReload(matched_protection);
+                  }
+                    
+                
+            
+                  var dn_protection_type = 'percentage';
+                  {% assign protection_percentage = shop.metafields.navidium.nvd_protection_type_value | plus: 0 %}
+                    var dn_protection_per_val = {{protection_percentage}};
+                    dn_protection_per_val = parseFloat(dn_protection_per_val);
+    
+                    var le = cartData.items.length;
+                    var i=0;
+                    var cartTotal = parseFloat(0);
+                    for(i; i<le; i++){
+                        if(cartData.items[i].handle != 'navidium-shipping-protection' ){
+                            cartTotal = cartTotal+cartData.items[i].line_price;
+                        }
+                        var loopIndex = i+1;
+                        if(loopIndex == le){
+                            console.log('cartTotal - '+cartTotal);
+                                cartTotal = cartTotal/100;
+                                cartTotal = parseFloat(cartTotal).toFixed(2);
+                            console.log('cartTotal2 - '+cartTotal);
+                              let shopurl = Shopify.shop;
+                              let cartData = {
+                                 shop_url: shopurl,
+                                 price: cartTotal
+                              };
+                            {% if protection_type_nvd == 1 %}
+                            var dn_protection_type = 'dynamic';
+                            console.log(dn_protection_type);
+                            let toHitApi = `https://app.navidiumapp.com/api/check-dynamic-variant-id-from-api.php?shop_url=${cartData.shop_url}&price=${cartData.price}`;
+                            {% else %}
+                            var dn_protection_type = 'static';
+                            console.log(dn_protection_type);
+                            //static code fires here
+                            let toHitApi = `https://app.navidiumapp.com/api/check-for-variant-id-from-api.php?shop_url=${cartData.shop_url}&price=${cartData.price}`;
+                            {% endif %}                      
+                            var variantID = '';
+                            var price = '';
+                            //send to api now
+                            fetch(
+                                toHitApi,
+                                {
+                                   method: "GET",
+                                   crossDomain: true,
+                                   dataType: "json",
+                                   crossOrigin: true,
+                                   data: cartData,
+                                   headers: {
+                                      "Access-Control-Allow-Methods": "*",
+                                      "Access-Control-Allow-Credentials": true,
+                                      "Access-Control-Allow-Headers":
+                                         "Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                                      "Access-Control-Allow-Origin": "*",
+                                      "Control-Allow-Origin": "*",
+                                      "cache-control": "no-cache",
+                                      "Content-Type": "application/json",
+                                   },
+                                }
+                             ).then(response => response.json()).then(data => {
+                                variantID = data.variant_id;
+                                price = data.price;
+                                let parsePrice = price * 100;
+                                price = Shopify.formatMoney(parsePrice);
+                                //Now I have variantID and Price, let's match it with the localStorage one
+                               if(localStorage.shippingProtectionVariant != undefined || localStorage.shippingProtectionVariant != null){
+                                    var exisitingProtectedVariant = localStorage.shippingProtectionVariant;
+                                  if(variantID == exisitingProtectedVariant){
+                                    //since it's the same, just append the snippet now
+                                    console.log('67: since its the same, just append the snippet now');
+                                      var toAppend = build_nvd_mini(price, variantID,'checked');
+                                      $(document).find('.nvd-mini').html('');
+                                      $(document).find('.nvd-mini').append(toAppend);
+                                        //check the checkbox with jquery here
+                                        $("#shippingProtectionCheckBox").addClass('nvd_yes');
+                                        checkNavidiumLimit();
+                                        //detect checkbox checking
+                                        checkboxChecking();
+                                  }else{
+                                    //since they are not the same, remove the existing one
+                                    console.log('70: since they are not the same, remove the existing one');
+                                      var exisitingProtectedVariant = localStorage.shippingProtectionVariant;
+                                      console.log('exisitingProtectedVariant - '+exisitingProtectedVariant);
+                                       var params = {
+                                          type: "POST",
+                                          url: "/cart/change.js",
+                                          data: "quantity=0&id=" + exisitingProtectedVariant,
+                                          dataType: "json",
+                                          success: function (data) {
+                                            console.log(data);
+                                            console.log('removed existing one');
+                                                    //add the new variant
+                                                      let items = {
+                                                         quantity: 1,
+                                                         id: variantID
+                                                      };
+                                                      console.log(items);
+                                                      fetch("/cart/add.js", {
+                                                         method: "POST",
+                                                         credentials: "same-origin",
+                                                         headers: {
+                                                            "Content-Type": "application/json",
+                                                            "X-Requested-With": "XMLHttpRequest",
+                                                         },
+                                                         body: JSON.stringify(items),
+                                                      })
+                                                      .then((response) => response.json())
+                                                      .then((responseJson) => {
+                                                        localStorage.setItem("shippingProtectionVariant", variantID);
+                                                        localStorage.setItem("protection_price", price);
+                                                        localStorage.setItem("shippingProtectionChecked", true);
+                                                        localStorage.setItem("nvd_opted_out", false);
+                                                        console.log('101: We came here');
+                                                        //build the snippet + add it to the pop up cart
+                                                        var toAppend = build_nvd_mini(price, variantID,'checked');
+                                                        $(document).find('.nvd-mini').html('');
+                                                        $(document).find('.nvd-mini').append(toAppend);
+                                                        updateCartNvd();
+                                                        //addClass to checkbox\
+                                                        $("#shippingProtectionCheckBox").addClass('nvd_yes');
+                                                        checkNavidiumLimit();
+                                                        //detect checkbox checking
+                                                        checkboxChecking();
+                                                      });
+    
+                                          },
+                                          error: function (error) {
+                                             console.log(error);
+                                          }
+                                       };
+                                       $.ajax(params);
+                                  } //if variant id mismatched ends
+                               }else{
+                                    //Now I don't have the variant id in cart, so basically auto opt in disabled
+                                    //shippingProtectionChecked == true/false
+                                    //nvd_opted_out == true / false
+    
+                                    console.log('113: Stay idle, build snippet');
+                                        //build the snippet + add it to the pop up cart
+                                      var toAppend = build_nvd_mini(price, variantID,'');
+                                      $(document).find('.nvd-mini').html('');
+                                      $(document).find('.nvd-mini').append(toAppend);
+    
+                                       //check if customer did not opt out
+                                       if(localStorage.getItem("nvd_opted_out") != 'true' || localStorage.getItem("nvd_opted_out") == undefined ){
+                                       {% if auto_insurance == true %}
+                                         console.log('auto insurance true')
+                                        //click the checkbox so that the addShippingProtection function fires
+                                          var nvd_auto_insurer = setInterval(function(){
+                                            if(document.querySelector("#shippingProtectionCheckBox")){
+                                              console.log('checking protection');
+                                               document.querySelector("#shippingProtectionCheckBox").click();
+                                                  clearInterval(nvd_auto_insurer);
+                                            }
+                                          }, 1000);       
+                                        {% endif %}
+                                       }
+                                                                   
+                                      checkNavidiumLimit();
+    
+                                      //detect checkbox checking
+                                      checkboxChecking();
+                               }
+    
+                            })         
+    
+                        }
+    
+                    }        
+            //if item available in cart ends
+          }else{
+             //no item in cart\\
+             console.log('no item in cart, just appending Navidium');
+                let shopurl = Shopify.shop;
+                let cartData = {
+                   shop_url: shopurl,
+                   price: 100
+                };
+                //send to api now
+                fetch(
+                   `https://app.navidiumapp.com/api/check-dynamic-variant-id-from-api.php?shop_url=${cartData.shop_url}&price=${cartData.price}`,
+                   {
+                      method: "GET",
+                      crossDomain: true,
+                      dataType: "json",
+                      crossOrigin: true,
+                      data: cartData,
+                      headers: {
+                         "Access-Control-Allow-Methods": "*",
+                         "Access-Control-Allow-Credentials": true,
+                         "Access-Control-Allow-Headers":
+                            "Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                         "Access-Control-Allow-Origin": "*",
+                         "Control-Allow-Origin": "*",
+                         "cache-control": "no-cache",
+                         "Content-Type": "application/json",
+                      },
+                   }
+                ).then(response => response.json()).then(data => {
+                   var variantID = data.variant_id;
+                   var price = data.price;
+                   let parsePrice = price * 100;
+                   price = Shopify.formatMoney(parsePrice);
+                   //document.querySelector(".shipping-protection-price").innerText = `  ${price}`;
+                   //since it's the same, just append the snippet now
+                   console.log('67: since its the same, just append the snippet now');
+                   var toAppend = build_nvd_mini(price, variantID,'');
+                   $(document).find('.nvd-mini').html('');
+                   $(document).find('.nvd-mini').append(toAppend);
+                   checkNavidiumLimit();
+                   //detect checkbox checking
+                   checkboxChecking();
+                })
+          }
+          
+    
+        } //function ends
+      
+      function startWidget(){
+
+        let myInterval = setInterval(function(){
+          console.log('inside my interval');
+
+          fetch('/cart.js').then(res=> res.json()).then(data=>{
+            if(data.item_count > 0){
+              	clearInterval(myInterval)
+                nvd_init();
+              }
+              else
+              {
+                clearInterval(myInterval)
+              }
+          })
+        },3000)  
+      }
+      
+      startWidget();
+    //total cart value
+    //total shipping value
+    //
+     
+     
+      
+      function build_nvd_mini(protection_price, protected_variant,protection_checkbox){
+      
+        var thisHtml = `<div class="appearance-right-previw" id="nvd-widget-cart">
+             <div class="d-flexCstm">
+                <div class="flex-shrink-0Cstm">
+                   <div class="form-checkCstm form-switchCstm">
+                      <input class="forms-check-inputCstm" type="checkbox" id="shippingProtectionCheckBox"
+          onclick="getShippingProtection('${protected_variant}','${protection_price}')" ${protection_checkbox} data-protected-variant="${protected_variant}">
+                      <div class="img">
+                         <img loading="lazy" class="navidium-shipping-icon" width="auto" height="auto" src="{{ "navidium-shipping-icon.png" | asset_url }}" alt="Navidium icon">
+                         <svg width="20" height="26" viewBox="0 0 20 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                               d="M9.8056 0.867554L0.00976562 4.2023C0.218188 8.16232 -0.177814 14.415 0.635031 17.1245C1.32282 19.4171 7.16558 23.8634 9.8056 25.6698C11.9593 23.9329 17.3442 20.4317 18.3509 18.1666C20.0183 14.415 19.8793 8.09285 19.6014 4.2023L9.8056 0.867554Z"
+                               fill="#6D7175"></path>
+                            <path d="M5.01172 13.1644L7.92963 16.7076L14.3907 10.0381" stroke="white" stroke-width="1.66738"
+                               stroke-linecap="round" stroke-linejoin="round"></path>
+                         </svg>
+                      </div>
+                   </div>
+                </div>
+                <div class="flex-grow-1Cstm ms-3Cstm">
+                   <h4>{{shop.metafields.navidium.nvd_name}}
+                      <button type="button" class="btnCstm tooltipCstm">
+                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                               d="M7.5 0C3.36433 0 0 3.36433 0 7.5C0 11.6357 3.36433 15 7.5 15C11.6357 15 15 11.6357 15 7.5C15 3.36433 11.6357 0 7.5 0ZM7.5 11.875C7.15496 11.875 6.87504 11.595 6.87504 11.25C6.87504 10.905 7.15496 10.625 7.5 10.625C7.84504 10.625 8.12496 10.905 8.12496 11.25C8.12496 11.595 7.84504 11.875 7.5 11.875ZM8.48934 7.90123C8.26813 8.00308 8.12496 8.22624 8.12496 8.46943V8.75004C8.12496 9.09496 7.84561 9.375 7.5 9.375C7.15439 9.375 6.87504 9.09496 6.87504 8.75004V8.46943C6.87504 7.73998 7.30373 7.0713 7.96566 6.76563C8.60252 6.47255 9.06246 5.69435 9.06246 5.31246C9.06246 4.45129 8.36185 3.75 7.5 3.75C6.63815 3.75 5.93754 4.45129 5.93754 5.31246C5.93754 5.6575 5.65807 5.93754 5.31246 5.93754C4.96685 5.93754 4.6875 5.6575 4.6875 5.31246C4.6875 3.7619 5.94933 2.49996 7.5 2.49996C9.05067 2.49996 10.3125 3.7619 10.3125 5.31246C10.3125 6.15692 9.57996 7.39815 8.48934 7.90123Z"
+                               fill="#212B36"></path>
+                         </svg>
+                         <span class="toolltiptextCstm">{{shop.metafields.navidium.nvd_description}}</span>
+                      </button>
+                   </h4>
+                   <p>{{shop.metafields.navidium.nvd_subtitle}}<strong class="shipping-protection-price"> ${protection_price}</strong></p>
+                   <p class="nvd-selected">{{shop.metafields.navidium.nvd_description}}</p>
+                   <p class="nvd-dis-selected" style="display:none">{{shop.metafields.navidium.nvd_message}}</p>
+                </div>
+             </div>
+          </div>`;
+        
+        return thisHtml;
+        
+        
+        
+      } //function buildsnippet ends
+    
+      
+       let getCart = async () => {
+          const cart = await fetch("/cart.js");
+          const cartData = await cart.json();
+          let totalprice = cartData.total_price / 100;
+          let shopurl = Shopify.shop;
+          let formatted_price = Shopify.formatMoney(cartData.total_price);
+    
+          let data = {
+             price: totalprice,
+             shop_url: shopurl,
+             formatted_price: formatted_price
+          };
+          console.log(data);
+          return data;
+    
+       };  
+      
+       //function for updating cart price without reloading
+       async function updateCartNvd() {
+            $.ajax({
+                        method: "GET",
+                        url: "/cart.json", 
+                        success: function(data){
+                            var myPrice = data.total_price;
+                            myPrice = Shopify.formatMoney(data.total_price);
+                            $(document).find(".ufe-cart-total-price").html(myPrice);
+                            $(document).find('.cart__subtotal .transcy-money').html(myPrice);
+                            $(document).find('.js-cart-total .transcy-money').html(myPrice);
+                          
+                            //update cart count
+                            var current_count = data.item_count;
+                            if(localStorage.getItem("nvd_opted_out") != true){
+                            	current_count = parseInt(current_count)-1;
+                            }
+                            $(document).find('.js-cart-count.site-header__cart-indicator').text(current_count);
+                        },
+                        error: function(error){ 
+                            console.log(error);
+                        }
+            });
+       }
+      
+      //getShippingProtection Checkbox click
+       let getShippingProtection = async (variantID,price) => {
+            
+          //var variantID = document.querySelector('#shippingProtectionCheckBox').dataset.protectedVariant;
+          if($("#shippingProtectionCheckBox").hasClass('nvd_yes')){
+             removeShippingProtection(variantID);
+          }else {
+             addShippingProtection(variantID,price);
+          }
+    
+       };  
+      
+       //function for adding shipping protection
+       const addShippingProtection = async (variantID,price) => {
+          // if checked then call getcart and get totalprice and hit shippingprotection api and store the variantid in localstorage
+          localStorage.setItem("shippingProtectionChecked", true);
+    		console.log('adding shipping protection')
+         //remove it if available
+             var params = {
+                type: "POST",
+                url: "/cart/change.js",
+                data: "quantity=0&id=" + variantID,
+                dataType: "json",
+                success: function (data) {
+    
+                  
+                           var params2 = {
+                              type: "POST",
+                              url: "/cart/add.js",
+                              data: "quantity=1&id=" + variantID,
+                              dataType: "json",
+                              success: function (data) {
+                                  localStorage.setItem("shippingProtectionVariant", variantID);
+                                  localStorage.setItem("protection_price", price);
+                                  document.querySelector(".nvd-selected").style.display = "block";
+                                  document.querySelector(".nvd-dis-selected").style.display = "none";
+                                  location.reload()
+                                  updateCartNvd();
+                                  //addClass to checkbox\
+                                  $("#shippingProtectionCheckBox").addClass('nvd_yes');
+                              },
+                              error: function (error) {
+                                 console.log(error);
+                              }
+                           };
+                          $.ajax(params2);              
+                  
+                },
+                error: function (error) {
+                   console.log(error);
+                }
+             };
+             $.ajax(params);
+       };
+    
+    
+       // function for removing shipping protection
+       let removeShippingProtection = async (shippingProtectionVariantID) => {
+          console.log('removeShippingProtection function e aschi');
+          if (shippingProtectionVariantID != null) {
+    
+             console.log(shippingProtectionVariantID);
+    
+             let variantid = parseInt(shippingProtectionVariantID);
+    
+             var params = {
+                type: "POST",
+                url: "/cart/change.js",
+                data: "quantity=0&id=" + variantid,
+                dataType: "json",
+                success: function (data) {
+                   console.log(data);
+                   localStorage.removeItem("shippingProtectionChecked");
+                   localStorage.removeItem("shippingProtectionVariant");
+                   localStorage.removeItem("protection_price");
+                   //customer chose not to use shipping protection
+                   localStorage.setItem("nvd_opted_out", true);
+                    //update cart price
+                   updateCartNvd();
+                    //addClass to checkbox\
+                    $("#shippingProtectionCheckBox").removeClass('nvd_yes');
+                },
+                error: function (error) {
+                   console.log(error);
+                }
+             };
+             $.ajax(params);
+            var nvd_selector_finder = setInterval(function(){
+              if(document.querySelector(".nvd-dis-selected")){
+                 document.querySelector(".nvd-selected").style.display = "none";
+                 document.querySelector(".nvd-dis-selected").style.display = "block";
+                    
+                    clearInterval(nvd_selector_finder);
+              }
+            }, 1);
+          }
+       };  
+      
+      
+       // function for removing shipping protection
+       let removeShippingProtectionReload = async (shippingProtectionVariantID) => {
+          console.log('removeShippingProtection function e aschi');
+          if (shippingProtectionVariantID != null) {
+    
+             console.log(shippingProtectionVariantID);
+    
+             let variantid = parseInt(shippingProtectionVariantID);
+    
+             var params = {
+                type: "POST",
+                url: "/cart/change.js",
+                data: "quantity=0&id=" + variantid,
+                dataType: "json",
+                success: function (data) {
+                   console.log(data);
+                   localStorage.removeItem("shippingProtectionChecked");
+                   localStorage.removeItem("shippingProtectionVariant");
+                   localStorage.removeItem("protection_price");
+                      location.reload();
+                },
+                error: function (error) {
+                   console.log(error);
+                }
+             };
+             $.ajax(params);
+            var nvd_selector_finder = setInterval(function(){
+              if(document.querySelector(".nvd-dis-selected")){
+                 document.querySelector(".nvd-selected").style.display = "none";
+                 document.querySelector(".nvd-dis-selected").style.display = "block";
+                    
+                    clearInterval(nvd_selector_finder);
+              }
+            }, 1);
+          }
+       };   
+      
+      
+      //  onload checkbox checking
+      function checkboxChecking(){
+         // check the checkbox button if it is checked or not
+         let checkbox = document.querySelector("#shippingProtectionCheckBox");
+         //   check if localstorage has shipping protection on
+         let shippingProtection = localStorage.getItem('shippingProtectionChecked');
+//          console.log('shipping protection checked',shippingProtection);
+         if (shippingProtection != null && (shippingProtection = true)) {
+            checkbox.checked = true;
+            document.querySelector(".nvd-selected").style.display = "block";
+            document.querySelector(".nvd-dis-selected").style.display = "none";
+         } else {
+            document.querySelector(".nvd-selected").style.display = "none";
+            document.querySelector(".nvd-dis-selected").style.display = "block";
+         }
+        
+         document.querySelector('#nvd-widget-cart').style.display = "block";
+    
+      }
+      
+      
+      
+      //remove duplicated variant
+       let removeDupeShippingProtection = async (shippingProtectionVariantID) => {
+          console.log('removeDupeShippingProtection function e aschi');
+          if (shippingProtectionVariantID != null) {
+             console.log(shippingProtectionVariantID);
+             let variantid = parseInt(shippingProtectionVariantID);
+             var params = {
+                type: "POST",
+                url: "/cart/change.js",
+                data: "quantity=0&id=" + variantid,
+                dataType: "json",
+                success: function (data) {
+                   console.log(data);
+                },
+                error: function (error) {
+                   console.log(error);
+                }
+             };
+             $.ajax(params);
+          }
+       }; 
+      //function to check app orders limit
+      function checkNavidiumLimit() {
+            $.ajax({
+                    method: "GET",
+                    crossDomain: true,
+                    dataType: "json",
+                    crossOrigin: true,
+                    headers: {
+                    "Access-Control-Allow-Methods": "*",
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Headers":
+                        "Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                    "Access-Control-Allow-Origin": "*",
+                    "Control-Allow-Origin": "*",
+                    "cache-control": "no-cache",
+                    "Content-Type": "application/json",
+                    },
+                    url: "https://app.navidiumapp.com/api/check-monthly-orders-from-api.php?shop_url={{shop.permanent_domain}}", 
+                    success: function(data){
+                        if (data.response == true) {
+                            if (data.success == true) {
+                                $(".appearance-right-previw").show();
+                            } else {
+                                document.querySelector("#nvd-widget-cart").style.display = "none";
+                                document.querySelector("#nvd-widget-cart").remove();
+                                console.log('%c Navidium Notice: Monthly Order Limit Exceeded','color:red;');
+                                //remove shipping protection variant
+                                var navidium_variantID = localStorage.getItem("shippingProtectionVariant");
+                                removeShippingProtection(navidium_variantID);
+                            }
+                        } else {
+                            document.querySelector("#nvd-widget-cart").style.display = "none";
+                            //document.querySelector("#nvd-widget-cart").remove();
+                            console.log('Navidium Notice: Limit return came false');
+                        }
+                        return true;
+                    },
+                    error: function(error){ 
+                        console.log(error);
+                        return false;
+                    }
+          });        
+      } //check order limit ends here   
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.initiatorType === "xmlhttprequest") {
+            if(entry.name.includes('/cart/change.js')){
+              console.log('cart add request found');
+              setTimeout(nvd_init(),1500);
+            }
+
+            {% if template.name != 'cart' %}
+              if(entry.name.includes('/cart/add.js')){
+                console.log('cart add request found');
+                setTimeout(nvd_init(),1500);
+              }
+            {% endif %}
+
+          }
+        }
+      });
+
+      observer.observe({
+        entryTypes: ["resource"]
+      });
+      jQuery(document).on('click', 'input[name="checkout"], button[name="checkout"]', function(event){
+        event.preventDefault();
+        window.location.href="/checkout";
+      });
+          //re-click firing
+          jQuery(document).ready(function(){
+            //checkout button click
+
+
+            //on update drawer
+//               jQuery(document).on('click','.js-qty__adjust', function(){
+//                 //block checkout
+//                 //$(document).find('#CartContainer').css({'pointer-events': 'none', 'opacity': '0.65'});
+//                 console.log('Qty changed!');
+//                 setTimeout(function(){
+//                     console.log('Firing action');
+//                     nvd_init();
+//                 }, 1500);
+//               });
+            //cart-remove-button
+              jQuery(document).on('click','.js-remove-mini-cart', function(){
+                //block checkout
+                //$(document).find('#CartContainer').css({'pointer-events': 'none', 'opacity': '0.65'});
+                console.log('Click happened');
+                setTimeout(function(){
+                    console.log('Firing action');
+                    nvd_init();
+                }, 1500);
+              });
+            
+//               jQuery('.product-form__cart-submit').on('click', function(){
+//                 //block checkout
+//                 //$(document).find('#CartContainer').css({'pointer-events': 'none', 'opacity': '0.65'});
+//                 setTimeout(function(){
+//                     console.log('Firing action');
+//                     nvd_init();
+//                 }, 1500);
+//               }); 
+            
+            //cart count
+            jQuery.ajax({
+              method: "GET",
+              url: "/cart.json", 
+              success: function(data){
+                var myPrice = data.total_price/100;
+                $(document).find(".ufe-cart-total-price").html('$'+myPrice);
+                $(document).find('.cart__subtotal .transcy-money').html('$'+myPrice);
+                $(document).find('.js-cart-total .transcy-money').html('$'+myPrice);
+                //update cart count
+                var current_count = data.item_count;
+                current_count = parseInt(current_count);
+                {% assign nvd_finder = 0 %}
+                {% for item in cart.items %}
+                    {% if item.product.handle contains 'navidium' %}
+                        {% assign nvd_finder = 1 %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                current_count = current_count-parseInt('{{nvd_finder}}');
+                //$(document).find('#CartTitle').text(current_count+ ' items');
+                $(document).find('.js-cart-count.site-header__cart-indicator').text(current_count);
+              },
+              error: function(error){ 
+                console.log(error);
+              }
+            }); 
+            //cart count ends
+          });
+
+    </script>
+    {% endif %}
