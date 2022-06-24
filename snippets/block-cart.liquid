@@ -18,6 +18,12 @@
       <a class="btn gradient-theme js-cart-btn-checkout btn-theme w-100 {% if cart.item_count == 0 %} disabled{% endif %}" href="/checkout">{{'cart.general.checkout' | t }}</a>
       <a class="btn btn-link btn-sm js-cart-btn-cart" href="/cart">{{'cart.general.update' | t }}</a>
     </div>
+    
+    <!-- Start of Shopify Planet code snippet --> <link href="https://cdn.shopify.com/shopifycloud/shopify-planet/bundles/latest/snippet.css" rel="stylesheet" type="text/css" media="all"> {%- assign CURRENT_DATE = "now" | date: "%Y-%m-%dT%H:%MZ" -%} {%- assign ACTIVE_UNTIL = shop.metafields.shopify-planet.active-until | date: "%Y-%m-%dT%H:%MZ" -%} <script src="https://cdn.shopify.com/shopifycloud/shopify-planet/bundles/latest/snippet.js" async></script> {% if CURRENT_DATE < ACTIVE_UNTIL or request.design_mode %} <div class="shopify-planet-banner"> <img src="https://cdn.shopify.com/extensions/77a33867-106a-4608-bb7c-98fa40ed256a/0.25.0/assets/logo.png" width="34" height="30" loading="lazy"> <div class="shopify-planet-banner-title-container"> <div class="shopify-planet-banner-title">All deliveries are carbon neutral</div> <div class="shopify-planet-banner-subtitle">Powered by Shopify Planet</div> </div> </div> {% endif %} <!-- End of Shopify Planet code snippet -->
+    
+    
+    
+    
 
     {%- if settings.safe_checkout_pcart != blank -%}
     <div class="mini-cart-safe-checkout">

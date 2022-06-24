@@ -1,0 +1,149 @@
+{{ content_for_index }}
+<style>
+    .customHide {
+        display: none !important;
+      }
+      .categories {
+        justify-content: flex-start !important;
+        margin-bottom: 50px;
+        margin-top: 5px;
+        flex-direction: column;
+        
+      }
+      .product-card__price {
+  font-weight: lighter;
+}
+.product-card__name {
+    font-weight: 600;
+}
+      #picker_btn_container {
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 22px;
+        height: 22px;
+        box-sizing: border-box;
+        background-color: white;
+        padding: 0;
+      }
+      #picker_btn {
+        width: 50vw;
+        height: 50vw;
+        border: transparent;
+        box-sizing: border-box;
+        border-radius: 50%;
+        width: 18px;
+        padding: 0;
+        height: 18px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        -khtml-border-radius: 50%;
+        vertical-align: middle;
+        -webkit-border-radius: 50%;
+      }
+      .checked {
+        box-shadow: 0 0 0 1px rgb(167, 167, 168);
+      }
+      div#picker_btn_container:hover {
+        box-shadow: 0 0 0 1px rgb(167, 167, 168);
+      }
+      .product-card {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between;
+        gap: 7px;
+      }
+      .product-card__info {
+        padding: 0 !important;
+        margin: 0 !important;
+        text-align: left;
+        
+      }
+      .jdgm-widget.jdgm-widget {
+        margin-top: -10px;
+      }
+      .jdgm-widget.jdgm-preview-badge.jdgm--done-setup {
+        max-width: 174px;
+        margin-top: -5px;
+  
+      }
+      .navElement {
+        font-size: 16px !important;
+      }
+      a.navElement {
+        z-index: 10;
+        cursor: pointer;
+        display: block;
+      }
+      @media screen and (max-width: 767px) {
+        .product-card__info .p_data {
+          flex-wrap: wrap;
+          flex-direction: column;
+        }
+        .product-card__price {
+          margin-bottom: 7px;
+        }
+       
+        .product-card__name {
+          text-align: start; 
+        }
+       
+        .jdgm-widget.jdgm-preview-badge.jdgm--done-setup {
+          margin-top: 0;
+        }
+      }
+    
+      @media screen and (max-width: 1200px) and (min-width: 991px) {
+        .product-card__info .p_data {
+          flex-direction: column;
+          margin-bottom: 7px;
+        }
+     
+      }
+      .product-card__info .p_data {
+        flex-direction: column;
+        margin-bottom: 7px;
+      }
+      .product-card__name {
+        font-size: 15px;
+      }
+      @media screen and (max-width: 991px) and (min-width: 600px) {
+        
+        .categories {
+          margin-top: 2px;
+          flex-direction: row !important;
+          gap: 10px;
+        }
+      }
+  </style>
+  
+<script>
+    function pickerHandler(event) {
+      console.log("hit")
+      Array.from(event.target.parentElement.parentElement.children).forEach(el => {
+        if (event.target.parentElement === el) {
+          el.classList.add('checked');
+          $(`a[data-image-id=${event.target.dataset.imageId}]`).siblings('a').each(function() {
+            $(this).addClass('customHide')
+          })
+          $(`a[data-image-id=${event.target.dataset.imageId}]`).removeClass('customHide');
+          event.target.parentElement.parentElement.parentElement.parentElement.children[0].children[0].href = event.target.dataset.href
+          event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].href = event.target.dataset.href
+          event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].textContent = `${event.target.dataset.title} - `
+          event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].title = event.target.dataset.title
+          event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].textContent = `$${event.target.dataset.price}`
+          if (event.target.dataset.variantTitle.split('/')[0].split('|')[1]) {
+            event.target.parentElement.parentElement.nextElementSibling.innerHTML = event.target.dataset.variantTitle.split('/')[0].split('|')[0] + "|" + event.target.dataset.variantTitle.split('/')[0].split('|')[1]
+          } else {
+            event.target.parentElement.parentElement.nextElementSibling.innerHTML = event.target.dataset.variantTitle.split('/')[0].split('|')[0]
+          }
+        } else {
+          el.classList.remove('checked');
+        }
+      })
+    }
+    
+  </script>
+{% render 'judgeme_widgets', widget_type: 'judgeme_featured_carousel', concierge_install: true, auto_install: true %}
