@@ -302,6 +302,7 @@
       }
     }
 </style>
+
 {%- assign productPerpage = 22 -%}
 {%- assign productPerrow = section.settings.collection_perrow -%}
 
@@ -317,7 +318,7 @@
 	{%- assign gridProduct = 'js-col col-sm-6 col-6 col-lg-2' -%}
 {%- endif -%}
 
-{%- paginate collection.products by productPerpage -%}
+
 <div class="{{section.settings.collection_width}}">
   <div class="row">
     {%- if section.settings.enable_sidebar -%}
@@ -326,17 +327,22 @@
         <div style="padding: 0 10px; border: transparent;" class="topCat">
           <a href="/collections/new-arrivals" class="navElement"><p>NEW ARRIVALS</p></a>
           <a href="/collections/best-sellers" class="navElement"><p>BEST SELLERS</p></a>
+          <hr>
+          <a href="/collections/earrings" class="navElement"><p {% if collection.handle == 'earrings' %}style="font-weight: 700;"{% endif %}>EARRINGS</p></a>
+          <a href="/collections/necklaces" class="navElement"><p {% if collection.handle == 'necklaces' %}style="font-weight: 700;"{% endif %}>NECKLACES & PENDANTS</p></a>
+          <a href="/collections/rings" class="navElement"><p {% if collection.handle == 'rings' %}style="font-weight: 700;"{% endif %}>RINGS</p></a>
+          <a href="/collections/bracelets" class="navElement"><p {% if collection.handle == 'bracelets' %}style="font-weight: 700;"{% endif %}>BRACELETS & ANKLETS</p></a>
+          <hr>
+          <a href="/collections/18k-yellow-gold" class="navElement"><p {% if collection.handle == '18k-yellow-gold' %}style="font-weight: 700;"{% endif %}>18K YELLOW GOLD</p></a>
+          <a href="/collections/14k-yellow-gold" class="navElement"><p {% if collection.handle == '14k-yellow-gold' %}style="font-weight: 700;"{% endif %}>14K YELLOW GOLD</p></a>
+          <a href="/collections/18k-white-gold" class="navElement"><p {% if collection.handle == '18k-white-gold' %}style="font-weight: 700;"{% endif %}>18K WHITE GOLD</p></a>
+          <a href="/collections/14k-white-gold" class="navElement"><p {% if collection.handle == '14k-white-gold' %}style="font-weight: 700;"{% endif %}>14K WHITE GOLD</p></a>
+          <a href="/collections/gold-vermeil" class="navElement"><p {% if collection.handle == 'gold-vermeil' %}style="font-weight: 700;"{% endif %}>GOLD VERMEIL</p></a>
+          <a href="/collections/sterling-silver" class="navElement"><p {% if collection.handle == 'sterling-silver' %}style="font-weight: 700;"{% endif %}>STERLING SILVER</p></a>
+          <a href="/collections/diamonds" class="navElement"><p {% if collection.handle == 'diamonds' %}style="font-weight: 700;"{% endif %}>DIAMONDS</p></a>
+
+
         </div>
-        
-        <hr>
-        {% for _collection in collections %}
-          {% unless _collection.handle == "new-arrivals" or _collection.handle == "best-sellers" or _collection.metafields.custom.subcollection == true %}
-            <div style="padding: 0 10px 10px; border: transparent;" class="navCategory">
-              <a href="/collections/{{ _collection.handle}}" class="navElement"><p {% if collection.handle == _collection.handle %}style="font-weight: 700;"{% endif %}>{{ _collection.title | upcase }}</p></a>
-            </div>
-          {% endunless%}
-           
-        {% endfor %}    
       </div>
     </div>
     {%- endif -%}
@@ -400,7 +406,7 @@
   </div>
   {%- include 'coupon_code' -%}
 </div>
-{%- endpaginate -%}
+
 <script>
   function pickerHandler(event) {
     console.log("hit")
