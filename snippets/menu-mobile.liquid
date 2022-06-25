@@ -55,22 +55,27 @@
       <div>
         <li id="customShop" class="drawer__nav-item drawer-nav__item--secondary"><a class="drawer__nav-link drawer__nav-link--top-level font-weight-normal">Shop</a><span>+</span></li>
         <div style="border: transparent;" class="topCat_burger">
-          <a href="/collections/new-arrivals" class="navElement"><p>NEW ARRIVALS</p></a>
-          <a href="/collections/best-sellers" class="navElement"><p>BEST SELLERS</p></a>
+
+          <a href="#" style="pointer-events: none; margin-bottom: 5px;" class="navElement"><p><strong>Trending</strong></p></a>
+          <a href="/collections/new-arrivals" class="navElement"><p>New Arrivals</p></a>
+          <a href="/collections/best-sellers" class="navElement"><p>Best Sellers</p></a>
           <hr>
-          <a href="/collections/earrings" class="navElement"><p {% if collection.handle == 'earrings' %}style="font-weight: 700;"{% endif %}>EARRINGS</p></a>
-          <a href="/collections/necklaces" class="navElement"><p {% if collection.handle == 'necklaces' %}style="font-weight: 700;"{% endif %}>NECKLACES & PENDANTS</p></a>
-          <a href="/collections/rings" class="navElement"><p {% if collection.handle == 'rings' %}style="font-weight: 700;"{% endif %}>RINGS</p></a>
-          <a href="/collections/bracelets" class="navElement"><p {% if collection.handle == 'bracelets' %}style="font-weight: 700;"{% endif %}>BRACELETS & ANKLETS</p></a>
+          <a href="#" style="pointer-events: none; margin-bottom: 5px;" class="navElement"><p><strong>Categories</strong></p></a>
+          <a href="/collections/shop-all" class="navElement"><p {% if collection.handle == 'shop-all' %}style="text-decoration: underline;"{% endif %}>Shop All</p></a>
+          <a href="/collections/earrings" class="navElement"><p {% if collection.handle == 'earrings' %}style="text-decoration: underline;"{% endif %}>Earrings</p></a>
+          <a href="/collections/necklaces" class="navElement"><p {% if collection.handle == 'necklaces' %}style="text-decoration: underline;"{% endif %}>Necklaces + Pendants</p></a>
+          <a href="/collections/rings" class="navElement"><p {% if collection.handle == 'rings' %}style="text-decoration: underline;"{% endif %}>Rings</p></a>
+          <a href="/collections/bracelets" class="navElement"><p {% if collection.handle == 'bracelets' %}style="text-decoration: underline;"{% endif %}>Bracelets + Anklets</p></a>
           <hr>
-          <a href="/collections/18k-yellow-gold" class="navElement"><p {% if collection.handle == '18k-yellow-gold' %}style="font-weight: 700;"{% endif %}>18K YELLOW GOLD</p></a>
-          <a href="/collections/14k-yellow-gold" class="navElement"><p {% if collection.handle == '14k-yellow-gold' %}style="font-weight: 700;"{% endif %}>14K YELLOW GOLD</p></a>
-          <a href="/collections/18k-white-gold" class="navElement"><p {% if collection.handle == '18k-white-gold' %}style="font-weight: 700;"{% endif %}>18K WHITE GOLD</p></a>
-          <a href="/collections/14k-white-gold" class="navElement"><p {% if collection.handle == '14k-white-gold' %}style="font-weight: 700;"{% endif %}>14K WHITE GOLD</p></a>
+          <a href="#" style="pointer-events: none; margin-bottom: 5px;" class="navElement"><p><strong>Materials</strong></p></a>
+          <a href="/collections/18k-yellow-gold" class="navElement"><p {% if collection.handle == '18k-yellow-gold' %}style="text-decoration: underline;"{% endif %}>18k Yellow Gold</p></a>
+          <a href="/collections/14k-yellow-gold" class="navElement"><p {% if collection.handle == '14k-yellow-gold' %}style="text-decoration: underline;"{% endif %}>14k Yellow Gold</p></a>
+          <a href="/collections/18k-white-gold" class="navElement"><p {% if collection.handle == '18k-white-gold' %}style="text-decoration: underline;"{% endif %}>18k White Gold</p></a>
+          <a href="/collections/14k-white-gold" class="navElement"><p {% if collection.handle == '14k-white-gold' %}style="text-decoration: underline;"{% endif %}>14k White Gold</p></a>
           <hr>
-          <a href="/collections/gold-vermeil" class="navElement"><p {% if collection.handle == 'gold-vermeil' %}style="font-weight: 700;"{% endif %}>GOLD VERMEIL</p></a>
-          <a href="/collections/sterling-silver" class="navElement"><p {% if collection.handle == 'sterling-silver' %}style="font-weight: 700;"{% endif %}>STERLING SILVER</p></a>
-          <a href="/collections/diamonds" class="navElement"><p {% if collection.handle == 'diamonds' %}style="font-weight: 700;"{% endif %}>DIAMONDS</p></a>
+          <a href="/collections/gold-vermeil" class="navElement"><p {% if collection.handle == 'gold-vermeil' %}style="text-decoration: underline;"{% endif %}>Gold Vermeil</p></a>
+          <a href="/collections/sterling-silver" class="navElement"><p {% if collection.handle == 'sterling-silver' %}style="text-decoration: underline;"{% endif %}>Sterling Silver</p></a>
+          <a href="/collections/diamonds" class="navElement"><p {% if collection.handle == 'diamonds' %}style="text-decoration: underline;"{% endif %}>Diamonds</p></a>
     
         </div>
         <li id="customGift" class="drawer__nav-item drawer-nav__item--secondary"><a class="drawer__nav-link drawer__nav-link--top-level font-weight-normal">Gifts</a><span>+</span></li>
