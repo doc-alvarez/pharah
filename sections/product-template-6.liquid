@@ -626,7 +626,7 @@ if ( vw < 767) {
   let el = document.querySelector(".product-form__quantity-submit.pt-4");
   let el2 = document.querySelector(".product-form__item.product-form__item--submit");
   window.onscroll = function() {
-    if($(document).scrollTop() > 1200){
+    if(document.querySelector('html').scrollTop > 1200){
         el.classList.add("sticky_cta");
         el2.style.margin = "0";
         

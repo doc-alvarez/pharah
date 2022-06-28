@@ -145,8 +145,8 @@
             <div class="img-container">
                 <a href="{{_section.link1_url}}">
                     <picture>
-                        <source srcset="{{ _section.img1_mobile | image_url: width: 400 }}"
-                                media="(max-width: 767px)"
+                        <source srcset="{{ _section.img1_mobile | image_url: width: 400 }} 767w"
+                                media="(max-width: 767px) 767px"
                         >
                         <img loading="lazy" tabindex="0" class="lazyload" src="{{ _section.img1 | image_url: width: 400 }}" alt="{{ _section.img1.alt }}">
                     </picture>
@@ -159,8 +159,8 @@
             <div class="img-container">
                 <a href="{{_section.link2_url}}">
                     <picture>
-                        <source srcset="{{ _section.img2_mobile | image_url: width: 400 }}"
-                                media="(max-width: 767px)"
+                        <source srcset="{{ _section.img2_mobile | image_url: width: 400 }} 767w"
+                                media="(max-width: 767px) 767px"
                         >
                         <img loading="lazy" tabindex="0" class="lazyload" src="{{ _section.img2 | image_url: width: 400 }}" alt="{{ _section.img2.alt }}">
                     </picture>       
@@ -172,8 +172,8 @@
             <div class="img-container">
                 <a href="{{_section.link3_url}}">
                     <picture>
-                        <source srcset="{{ _section.img3_mobile | image_url: width: 300 }}"
-                                media="(max-width: 767px)"
+                        <source srcset="{{ _section.img3_mobile | image_url: width: 300 }} 767w"
+                                media="(max-width: 767px) 767px"
                         >
                         <img loading="lazy" tabindex="0" class="lazyload" src="{{ _section.img3 | image_url: width: 335 }}" alt="{{ _section.img3.alt }}">
                     </picture>
@@ -185,8 +185,8 @@
             <div class="img-container">
                 <a href="{{_section.link4_url}}">
                     <picture>
-                        <source srcset="{{ _section.img4_mobile | image_url: width: 300 }}"
-                                media="(max-width: 767px)"
+                        <source srcset="{{ _section.img4_mobile | image_url: width: 300 }} 767w"
+                                media="(max-width: 767px) 767px"
                         >
                         <img loading="lazy" tabindex="0" class="lazyload" src="{{ _section.img4 | image_url: width: 335 }}" alt="{{ _section.img4.alt }}">
                     </picture>
@@ -195,6 +195,7 @@
             <div class="card-link"><a href="{{_section.link4_url}}">{{_section.link4_text}}</a></div>
         </div>
     </div>
+    {% if _section.link5_url %}
     <div class="cat-cards-container_2ndRow">
         <div class="card">
             <div class="img-container">
@@ -251,6 +252,7 @@
             <div class="card-link"><a href="{{_section.link8_url}}">{{_section.link8_text}}</a></div>
         </div>
     </div>   
+    {% endif %}
 
 </div><!-- /.categories -->
 

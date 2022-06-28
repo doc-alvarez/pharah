@@ -176,11 +176,27 @@ window.addEventListener("klaviyoForms", function(e) {
     <!-- End Google Tag Manager -->
     <script>
       window.onload = () => {
+        var testElement = document.querySelector('.toggle-menu-mobile button');
+ 
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          toggle.click()
+          toggle2.click()
+        });     
+      });
+ 
+        observer.observe(testElement, {
+            attributes: true
+        });
+
+
+
         console.log('loaded')
-        window.isMenu_one_Open = false;
+        window.isMenu_one_Open = true;
         let dropdown = document.querySelector('.topCat_burger');
         let toggle = document.querySelector('#customShop');
         let tog1 = document.querySelector('#customShop span');
+      
         toggle.onclick = () => {
           if (window.isMenu_one_Open) {
             dropdown.style.display = 'none';
@@ -197,10 +213,11 @@ window.addEventListener("klaviyoForms", function(e) {
           }
         }
 
-        window.isMenu_two_Open = false;
+        window.isMenu_two_Open = true;
         let dropdown2 = document.querySelector('.topCat_burger_gifts');
         let toggle2 = document.querySelector('#customGift');
         let tog2 = document.querySelector('#customGift span');
+        
         toggle2.onclick = () => {
           
           if (window.isMenu_two_Open) {
@@ -352,7 +369,7 @@ window.addEventListener("klaviyoForms", function(e) {
             $(`a[data-image-id=${event.target.dataset.imageId}]`).removeClass('customHide');
             event.target.parentElement.parentElement.parentElement.parentElement.children[0].children[0].href = event.target.dataset.href
             event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].href = event.target.dataset.href
-            event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].textContent = `${event.target.dataset.title} - `
+            event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].textContent = `${event.target.dataset.title}`
             event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].title = event.target.dataset.title
             event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].textContent = `$${event.target.dataset.price}`
             if (event.target.dataset.variantTitle.split('/')[0].split('|')[1]) {

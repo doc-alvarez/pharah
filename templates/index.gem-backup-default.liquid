@@ -131,7 +131,7 @@
           $(`a[data-image-id=${event.target.dataset.imageId}]`).removeClass('customHide');
           event.target.parentElement.parentElement.parentElement.parentElement.children[0].children[0].href = event.target.dataset.href
           event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].href = event.target.dataset.href
-          event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].textContent = `${event.target.dataset.title} - `
+          event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].textContent = `${event.target.dataset.title}`
           event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[0].title = event.target.dataset.title
           event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[1].textContent = `$${event.target.dataset.price}`
           if (event.target.dataset.variantTitle.split('/')[0].split('|')[1]) {
