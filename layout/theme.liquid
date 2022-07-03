@@ -87,7 +87,7 @@
       </main>
       {% if request.page_type == 'product' %}
       {% section 'image-content-3' %}
-      {% section 'you-may-also-like' %}
+      
       {% endif %}
       {%- include 'footer' -%}
       {%- include 'popup-newsletter' -%}
@@ -245,7 +245,7 @@ window.addEventListener("klaviyoForms", function(e) {
           justify-content: flex-start !important;
           margin-bottom: 50px;
           margin-top: 5px;
-          flex-direction: column;
+          /* flex-direction: column; */
           
         }
         .product-card__price {
@@ -335,13 +335,13 @@ window.addEventListener("klaviyoForms", function(e) {
       
         @media screen and (max-width: 1200px) and (min-width: 991px) {
           .product-card__info .p_data {
-            flex-direction: column;
+            /* flex-direction: column; */
             margin-bottom: 7px;
           }
        
         }
         .product-card__info .p_data {
-          flex-direction: column;
+          /* flex-direction: column; */
           margin-bottom: 7px;
         }
         .product-card__name {

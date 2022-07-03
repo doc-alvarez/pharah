@@ -111,6 +111,15 @@
       padding-top: 20px;
     }
   }
+  .product-single__meta .jdgm-prev-badge__text {
+    width: 150px;
+  }
+  .jdgm-prev-badge {
+    display: flex !important;
+    gap: 10px;
+    width: 240px;
+  }
+  
   .modal-backdrop.show{
     display:none !important;
   }
@@ -198,6 +207,9 @@
   	font-weight:300;
     color:var(--g-color-heading);
   }
+  .product-single__title {
+    margin-bottom: 15px;
+  }
   .block-pricing .sezzle-shopify-info-button{
   	display:none !important;
   }
@@ -234,6 +246,7 @@
   }
  
 </style>
+
 
 <div class="js-recently-view" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true" data-ajax="true" data-stock="{{ section.settings.stock_enable }}" data-handle="{{product.handle}}">
   {% assign product_image_size = '480x480' %}
@@ -339,7 +352,7 @@
               {{ 'products.product.on_sale' | t }}
             </span>
           </span></sup>
-            -
+            
             <ul class="d-inline-block ml-1 product-single__meta-list list--inline{% if shop.taxes_included or shop.shipping_policy.body != blank %} product-single__price-container{% endif %}">
               <li>
                 {%- unless product.compare_at_price_max > product.price -%}
