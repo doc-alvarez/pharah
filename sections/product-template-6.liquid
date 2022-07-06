@@ -244,8 +244,58 @@
     transition: all ease 800ms;
     padding: 0 20px;
   }
- 
+ video {
+  height: 100%;
+  width: 100%;
+ }
+ @media screen and (min-width: 767px) {
+  .row.product-single {
+    flex-wrap: nowrap;
+    padding: 0 130px 0 40px;
+  }
+  .col-12.col-lg-4.order-1.col-md-6 {
+    max-width: 50%;
+    flex: 1 0 50%;
+  }
+ }
+ @media screen and (min-width: 400px) {
+
+   .product-single__title {
+    display: flex;
+    justify-content: space-between;
+   }
+ }
+ .video_display-box {
+  padding-bottom: 0 !important;
+ }
+ .selector-wrapper.js.product-form__item {
+  margin: 0 !important;
+ }
+ .js-play-button {
+  background-color: white !important;
+ }
+ .js-scroll-button {
+  position: absolute;
+    bottom: 20px;
+    left: 15px;
+    cursor: pointer;
+    background: white;
+    border-radius: 50%;
+    z-index: 2;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    transition: all ease .45s;
+ }
+
 </style>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+/>
+
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
 
 <div class="js-recently-view" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true" data-ajax="true" data-stock="{{ section.settings.stock_enable }}" data-handle="{{product.handle}}">
@@ -256,8 +306,48 @@
   <meta itemprop="image" content="{{ product.featured_image.src | img_url: '600x600' }}">
   <meta itemprop="brand" content="{{ product.vendor }}">
   <div class="container-fluid">
-  <div class="row product-single ">
-    <div class="col-lg-8  col-md-6 col-12">
+  <div class="row product-single">
+    <div class="swiper" style="width: 100%; height: 100%">
+      <div class="swiper-wrapper">
+        
+        {%- for image in product.images -%}
+        <div class="swiper-slide">
+          <a href="{{ image | img_url: '1400x' }}" itemprop="contentUrl" data-size="1400x1400"
+                  class="product__photo-wrapper product__photo-wrapper-{{ section.id }} zoom_image zoom zoom_enabled"
+                  style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;">
+                  {% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                  <img loading="lazy" itemprop="thumbnail" class="lazyload {% unless image == featured_image %} lazypreload{% endunless %}"
+                      src="{{ image | img_url: '1200x' }}"
+                      data-src="{{ img_url }}"
+                      data-widths="[180, 240, 360, 480, 720, 960, 1080, 1296, 1512, 1728, 2048]"
+                      data-aspectratio="{{ image.aspect_ratio }}"
+                      data-sizes="auto"
+                      alt="{{ image.alt | escape }}">
+                </a>
+                <span class="js-scroll-button" style="display: none;">
+                  {%- render 'icon-play' -%}  
+                </span>
+        </div>
+        {% endfor %}
+        {% for media in product.media %}
+        {%- if media.media_type == 'video' -%}
+            <div class="swiper-slide">
+              {% render 'productVideo', media: media %}
+            </div>
+            <style>
+              .js-scroll-button {
+                display: block !important;
+              }
+            </style>
+         {% endif %}   
+      {% endfor %}
+      </div>
+    
+      <div class="swiper-scrollbar" style="height: 6px;"></div>
+
+    </div>
+    {% comment %}
+    <!-- <div class="col-lg-8  col-md-6 col-12">
       <div class="photos">
         <div class="photos__item photos__item--main">
 
@@ -339,12 +429,13 @@
         {% endif %}
       </div>
 
-    </div>
+    </div> -->
+    {% endcomment %}
     <div class="col-12 col-lg-4 order-1 col-md-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
       <div class="product-single__info-wrapper js-stick-parent">
         <meta itemprop="priceCurrency" content="{{ shop.currency }}">
         <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
-        <div class="product-single__meta small--text-center mb-3">
+        <div class="product-single__meta small--text-center">
 
           {%- include 'breadcrumb' -%}
           <h1 itemprop="name" class="product-single__title">{{ product.title }}<sup><span id="ProductSaleTag-{{ section.id }}" class="{% unless product.compare_at_price > product.price %}hide{% endunless %}">
@@ -434,7 +525,7 @@
           </span>
           {%- endif -%}
           
-          <div style="margin-bottom: 10px; text-align: center; width: 100%; padding: 12px 14px;background-color: #f5f2f775;">
+          <div style="margin-top: 15px; margin-bottom: 10px; text-align: center; width: 100%; padding: 12px 14px;background-color: #f5f2f775;">
             {% assign todayNumber =  "now" | date: "%d" %}
             {% assign todayNumber = todayNumber | plus: 2 %}
             <div style="display: flex; justify-content: flex-start; align-items: center; gap:14px;">
@@ -620,6 +711,7 @@
   {%- include 'upsell' -%}
   {%- include 'next-prev-product' -%}
   {%- include 'photoswipe' -%}
+  <!-- <div data-rebuy-id="38288" data-rebuy-shopify-product-ids="{{ product.id }}"></div> -->
   
   
 </div>
@@ -1333,4 +1425,24 @@ if ( vw < 767) {
     soldOut: {{ 'products.product.sold_out' | t | json }},
     unavailable: {{ 'products.product.unavailable' | t | json }}
   }
+</script>
+<script>
+  const swiper = new Swiper('.swiper', {
+  // Optional parameters
+  direction: 'horizontal',
+
+  // And if we need scrollbar
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
+const swiperHandler = document.querySelector('.swiper').swiper;
+let hookEl = document.querySelectorAll('.js-scroll-button');
+hookEl.forEach(hook => {
+  hook.addEventListener('click', () => {
+    swiperHandler.slideTo(swiperHandler.slides.length, 1000);
+  })
+
+})
+
 </script>

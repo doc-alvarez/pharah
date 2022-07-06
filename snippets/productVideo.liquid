@@ -1,13 +1,13 @@
 {%- if media.media_type == 'video' -%}
-<div class="video_display {{index}} col-lg-6 col-12" data-alt="{{media.alt}}">
+<div style="padding: 0; max-width: 100%;"class="video_display {{index}} col-lg-6 col-12" data-alt="{{media.alt}}">
   <div class="video_display-box">
 <!-- productVideo.liquid -->
-<span class="js-play-button">
+<span class="js-play-button active">
   {%- render 'icon-play' -%}
   {%- render 'icon-pause' -%}
 </span>
 
-{{ media | video_tag: image_size: '630x', loop: true, autoplay: false, muted: true, class: 'js-product-video' | replace: 'playsinline="playsinline"', ''}}
+{{ media | video_tag: image_size: '630x', autoplay: true, loop: true, muted: true, class: 'js-product-video' | replace: 'playsinline="playsinline"', ''}}
   </div>
   </div>
 
