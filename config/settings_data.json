@@ -4,7 +4,7 @@
     "slideshow": "slideshow-1",
     "footer": "footer-5",
     "pnewsletter": "pnewsletter-1",
-    "productpage": "product-1",
+    "productpage": "product-8",
     "collectionpage": "collection-6",
     "blogpage": "blog-1",
     "articlepage": "article-1",
@@ -478,45 +478,31 @@
           "9a903197-bcaa-40b6-8e05-fa1eb2cae478": {
             "type": "collection",
             "settings": {
-              "collection": "quentin"
+              "collection": "best-sellers"
             }
           },
           "95ebabfe-c0f0-4b87-8ee5-f55fefc9ce72": {
             "type": "collection",
             "settings": {
-              "collection": "saxon"
+              "collection": "bracelets"
             }
           },
           "e0a93ee3-f3c2-4710-b6af-8f9d16d49110": {
             "type": "collection",
             "settings": {
-              "collection": "sydney"
+              "collection": "earrings"
             }
           },
-          "79abc5fc-d2e6-42b5-abd5-fe8868febe0b": {
+          "247db035-83be-43f5-b3b1-a8b691912a90": {
             "type": "collection",
-            "disabled": true,
             "settings": {
-              "collection": "morrell-gold"
+              "collection": "18k-yellow-gold"
             }
           },
-          "0c0233e6-a94c-48a0-adae-f54aeb609660": {
+          "18875556-26ee-40df-b830-cc01fcb076f4": {
             "type": "collection",
             "settings": {
-              "collection": "nature"
-            }
-          },
-          "5e3987e2-35e0-4aa2-9aee-415f2712708e": {
-            "type": "collection",
-            "settings": {
-              "collection": "keynes"
-            }
-          },
-          "12c52b68-1afe-4cd2-aaa4-7ad2d10bb1de": {
-            "type": "collection",
-            "disabled": true,
-            "settings": {
-              "collection": "acrylic"
+              "collection": "18k-white-gold"
             }
           }
         },
@@ -524,15 +510,13 @@
           "9a903197-bcaa-40b6-8e05-fa1eb2cae478",
           "95ebabfe-c0f0-4b87-8ee5-f55fefc9ce72",
           "e0a93ee3-f3c2-4710-b6af-8f9d16d49110",
-          "79abc5fc-d2e6-42b5-abd5-fe8868febe0b",
-          "0c0233e6-a94c-48a0-adae-f54aeb609660",
-          "5e3987e2-35e0-4aa2-9aee-415f2712708e",
-          "12c52b68-1afe-4cd2-aaa4-7ad2d10bb1de"
+          "247db035-83be-43f5-b3b1-a8b691912a90",
+          "18875556-26ee-40df-b830-cc01fcb076f4"
         ],
         "settings": {
-          "display_type": "selected",
+          "display_type": "all",
           "layout": "list",
-          "sort": "date_reversed"
+          "sort": "products_high"
         }
       },
       "featured-products-subsection": {
@@ -3233,15 +3217,6 @@
       "footer-5": {
         "type": "footer-5",
         "blocks": {
-          "1595749532292": {
-            "type": "newsletter",
-            "settings": {
-              "title": "Join Pharah",
-              "subheading": "<p>Sign up to grab 10% off your first order.<br\/><br\/><\/p><p><\/p>",
-              "enablesocial": true,
-              "width": "33%"
-            }
-          },
           "0bfeb615-3fd7-4b99-80f7-98633fe59f97": {
             "type": "menu",
             "settings": {
@@ -3256,12 +3231,21 @@
               "text": "<p><a href=\"\/pages\/privacy-policy\">Privacy Policy<\/a><\/p>\n<p><a href=\"\/pages\/terms-of-service\">Terms of Service<\/a><\/p>\n<p><a href=\"\/pages\/shipping-policy\">Shipping Policy<\/a><\/p>\n<p><a href=\"\/pages\/refund-policy\">Refund Policy<\/a><\/p>\n<hr style=\"width:50%\">\n<p>hey@pharah.co<\/p>\n<div>\nLos Angeles\n<p>California\n<\/p>\n\n<\/div>",
               "width": "33%"
             }
+          },
+          "06f2cdd9-8514-4448-8c76-b4395a3dca43": {
+            "type": "newsletter",
+            "settings": {
+              "title": "Join Pharah",
+              "subheading": "<p>Sign up to grab 10% off your first order.<\/p>",
+              "enablesocial": false,
+              "width": "33%"
+            }
           }
         },
         "block_order": [
-          "1595749532292",
           "0bfeb615-3fd7-4b99-80f7-98633fe59f97",
-          "1595750346876"
+          "1595750346876",
+          "06f2cdd9-8514-4448-8c76-b4395a3dca43"
         ],
         "settings": {
           "cssfooter": "",
@@ -3386,7 +3370,7 @@
           "title_top": "New Arrivals",
           "title": "DESIGNED UNIQUELY FOR YOU",
           "des": "",
-          "arrows": true,
+          "arrows": false,
           "draggable": true,
           "dots": true,
           "infinite": true,
@@ -3929,7 +3913,7 @@
           "title_top": "EARRINGS",
           "title": "",
           "des": "",
-          "arrows": true,
+          "arrows": false,
           "draggable": true,
           "dots": true,
           "infinite": true,
@@ -4055,7 +4039,7 @@
           "title_top": "NECKLACES",
           "title": "",
           "des": "",
-          "arrows": true,
+          "arrows": false,
           "draggable": true,
           "dots": true,
           "infinite": true,
@@ -4089,7 +4073,7 @@
           "title_top": "RINGS",
           "title": "",
           "des": "",
-          "arrows": true,
+          "arrows": false,
           "draggable": true,
           "dots": true,
           "infinite": true,
@@ -4123,7 +4107,7 @@
           "title_top": "BRACELETS",
           "title": "",
           "des": "",
-          "arrows": true,
+          "arrows": false,
           "draggable": true,
           "dots": true,
           "infinite": true,
@@ -4137,7 +4121,7 @@
         "settings": {
           "animation": "fade",
           "paddingsection": "0px 20px 0px 20px",
-          "paddingmobile": "60px 0px 60px 0px",
+          "paddingmobile": "0px 0px 0px 0px",
           "marginsection": "0px 0px 0px 0px",
           "marginmobile": "0px 0px 0px 0px",
           "bgsection": "#fefefe",
@@ -4186,6 +4170,7 @@
       "1595951747818",
       "1596218260310",
       "1597767646057",
+      "1641166272e8618c9d",
       "1629739075d194192c",
       "1625401338234fffd7",
       "16419099280f354218",
@@ -4194,8 +4179,7 @@
       "1597854821894",
       "164820921222ffefe6",
       "1624985583eaed92b4",
-      "164820931619909e8e",
-      "1641166272e8618c9d"
+      "164820931619909e8e"
     ],
     "blocks": {
       "14060646107696862457": {

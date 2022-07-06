@@ -108,6 +108,7 @@ If you plan to remove PageFly, please see the guide in our help center first: ht
 {%- else -%}
 {{ avada-seo-minified }}
 {%- endif -%}
+{% comment %}
  <script defer>
     document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -125,7 +126,24 @@ if (jdgNum > 1 || jdgNum < 1) {
  }, 500)
     })
   </script>
+   {% endcomment %}
    
+   
+   {% if template contains 'product' %}
+<script>
+window.addEventListener('jdgm.doneSetup', () => {
+  setTimeout(() => {
+let avgRat = document.querySelector('.jdgm-prev-badge').dataset.averageRating;
+  if (avgRat != 5 && avgRat > 4.0) {
+document.querySelector('.jdgm-prev-badge__stars .jdgm-star:last-of-type').classList.remove('jdgm--on');
+document.querySelector('.jdgm-rev-widg__summary-stars .jdgm-star:last-of-type').classList.remove('jdgm--on');
+document.querySelector('.jdgm-prev-badge__stars .jdgm-star:last-of-type').classList.add('jdgm--half');
+document.querySelector('.jdgm-rev-widg__summary-stars .jdgm-star:last-of-type').classList.add('jdgm--half');
+}
+}, 400)
+})
+</script>
+{% endif %}
    <style>
      .product-single__meta  .jdgm-prev-badge__text {
       display: inline-block !important;

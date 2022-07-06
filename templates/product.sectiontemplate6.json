@@ -12,11 +12,11 @@
         "product_type_enable": false,
         "variant_sku_enable": false,
         "variant_available_enable": false,
-        "wailist": true,
+        "wailist": false,
         "product_selector": "radio",
         "sizeguide_enable": true,
         "sizeguide_title": "Sizing Help?",
-        "sizeguide_page": "",
+        "sizeguide_page": "size-guide-1",
         "learnmore": true,
         "learmore_title": "Learn more",
         "learmore_page": "smart-fair",
@@ -42,9 +42,27 @@
         "cart_bg": "#35bb5a",
         "cart_cl": "#ffffff"
       }
+    },
+    "1656876953d16e046a": {
+      "type": "featured-products",
+      "settings": {
+        "animation": "slide-up",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "title_top": "",
+        "title": "You may also like",
+        "des": "",
+        "collection": "new-arrivals",
+        "rows": 1
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "1656876953d16e046a"
   ]
 }
