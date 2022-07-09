@@ -166,7 +166,7 @@
       opacity: 1;
     z-index: 1;
     transform: scale(1.2);
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     top: 0;
@@ -207,9 +207,7 @@
   	font-weight:300;
     color:var(--g-color-heading);
   }
-  .product-single__title {
-    margin-bottom: 15px;
-  }
+  
   .block-pricing .sezzle-shopify-info-button{
   	display:none !important;
   }
@@ -234,7 +232,8 @@
   .product-form__item.product-form__item--submit {
     height: 48px;
   }
-  .sticky_cta {
+  .stickyCTA {
+    opacity: 0;
     position: fixed;
     bottom: 10px;
     background-color: white;
@@ -244,21 +243,15 @@
     transition: all ease 800ms;
     padding: 0 20px;
   }
- video {
-  height: 100%;
-  width: 100%;
- }
- @media screen and (min-width: 767px) {
-  .row.product-single {
-    flex-wrap: nowrap;
-    padding: 0 130px 0 40px;
-  }
-  .col-12.col-lg-4.order-1.col-md-6 {
-    max-width: 50%;
-    flex: 1 0 50%;
-  }
- }
- @media screen and (min-width: 400px) {
+ @media screen and (max-width: 1024px) {
+   video {
+    height: 100%;
+    width: 100%;
+   }
+
+ } 
+
+ @media screen and (min-width: 300px) and (max-width: 1024px) {
 
    .product-single__title {
     display: flex;
@@ -269,7 +262,7 @@
   padding-bottom: 0 !important;
  }
  .selector-wrapper.js.product-form__item {
-  margin: 0 !important;
+  margin: 25px 0 0 0 !important;
  }
  .js-play-button {
   background-color: white !important;
@@ -288,6 +281,33 @@
     line-height: 50px;
     transition: all ease .45s;
  }
+ @media screen and (min-width: 1024px) {
+  .swiper {
+    display: none;
+  }
+  .customGrid {
+    display: block;
+  }
+  .product-single__title {
+    margin-bottom: 15px;
+  }
+ }
+ @media screen and (max-width: 1024px) {
+  .swiper {
+    display: block;
+  }
+  .customGrid {
+    display: none;
+  }
+ }
+
+
+   fieldset.single-option-radio {
+    display: flex;
+      gap: 10px;
+      align-items: center;
+   }
+ 
 
 </style>
 <link
@@ -346,8 +366,7 @@
       <div class="swiper-scrollbar" style="height: 6px;"></div>
 
     </div>
-    {% comment %}
-    <!-- <div class="col-lg-8  col-md-6 col-12">
+    <div class="customGrid col-lg-8  col-md-6 col-12">
       <div class="photos">
         <div class="photos__item photos__item--main">
 
@@ -429,8 +448,8 @@
         {% endif %}
       </div>
 
-    </div> -->
-    {% endcomment %}
+    </div>
+    
     <div class="col-12 col-lg-4 order-1 col-md-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
       <div class="product-single__info-wrapper js-stick-parent">
         <meta itemprop="priceCurrency" content="{{ shop.currency }}">
@@ -450,14 +469,14 @@
                 <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
                 {%- endunless -%}
                 <span id="ProductPrice-{{ section.id }}" class="product-single__price" itemprop="price" content="{{ current_variant.price | divided_by: 100 }}">
-                  {{ current_variant.price | money }}
+                  {{ current_variant.price | money_without_trailing_zeros }}
                 </span>
               </li>
               {% if product.compare_at_price_max > product.price %}
               <li>
                 <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
                 <s id="ComparePrice-{{ section.id }}" class="product-single__price product-single__price--compare">
-                  {{ current_variant.compare_at_price | money }}
+                  {{ current_variant.compare_at_price | money_without_trailing_zeros }}
                 </s>
               </li>
               {% endif %}
@@ -550,7 +569,34 @@
                   {% unless current_variant.available %}
                   {{ 'products.product.sold_out' | t }}
                   {% else %}
-                  {{ 'products.product.add_to_cart' | t }}
+                  {{ 'products.product.add_to_cart' | t }} · {{ current_variant.price | money_without_trailing_zeros }}
+                  {% endunless %}
+                </span>
+              </button>
+            </div>
+            {% if section.settings.enable_payment_button %}
+              <div class="product-form__buynow">
+              {{ form | payment_button }}
+              {% if current_variant.available == false %}<style>.shopify-payment-button{display:none}</style>{% endif %}
+              </div>
+            {% endif %}
+            </div>
+            <div class="stickyCTA product-form__quantity-submit pt-4"> 
+            <div class="product-form__item product-form__item--quantity">
+              <label class="hide" for="Quantity">{{ 'products.product.quantity' | t }}</label>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input product-form__quantity">
+            </div>
+            <div class="product-form__item product-form__item--submit">
+              <button type="submit"
+                      name="add"
+                      id="2AddToCart-{{ section.id }}"
+                      class="btn btn--full btn-theme product-form__cart-submit {% if section.settings.enable_payment_button %}product-form__cart-submit--outline{% endif %}{% unless current_variant.available %} btn--sold-out{% endunless %}"
+                      {% unless current_variant.available %}disabled="disabled"{% endunless %}>
+                <span id="2AddToCartText-{{ section.id }}">
+                  {% unless current_variant.available %}
+                  {{ 'products.product.sold_out' | t }}
+                  {% else %}
+                  {{ 'products.product.add_to_cart' | t }} · {{ current_variant.price | money_without_trailing_zeros }}
                   {% endunless %}
                 </span>
               </button>
@@ -601,7 +647,7 @@
                 <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
                 {%- endunless -%}
                 <span id="ProductPrice-{{ section.id }}" class="product-single__price" itemprop="price" content="{{ current_variant.price | divided_by: 100 }}">
-                  {{ current_variant.price | money }}
+                  {{ current_variant.price | money_without_trailing_zeros }}
                 </span>
                 <span class="txt-price text-uppercase ">pharah</span>
               </li>
@@ -715,32 +761,7 @@
   
   
 </div>
-<script>
-  function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-const vw = document.documentElement.clientWidth || window.innerWidth;
-console.log(vw)
-if ( vw < 767) {
-  let el = document.querySelector(".product-form__quantity-submit.pt-4");
-  let el2 = document.querySelector(".product-form__item.product-form__item--submit");
-  window.onscroll = function() {
-    if(document.querySelector('html').scrollTop > 1200){
-        el.classList.add("sticky_cta");
-        el2.style.margin = "0";
-        
-    } else {
-        el.classList.remove("sticky_cta");
-  }
-};
-}
-</script>
+<script defer src="{{ 'scrolling.js' | asset_url }}"></script>
 <style>
   @media screen and (min-width: 900px) {
     .modal-dialog.modal-dialog--learmore.modal-dialog-centered {

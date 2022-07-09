@@ -1,5 +1,13 @@
+<style>
+  @media screen and (max-width: 1024px) {
+    .video_display {
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+  }
+</style>
 {%- if media.media_type == 'video' -%}
-<div style="padding: 0; max-width: 100%;"class="video_display {{index}} col-lg-6 col-12" data-alt="{{media.alt}}">
+<div class="video_display {{index}} col-lg-6 col-12" data-alt="{{media.alt}}">
   <div class="video_display-box">
 <!-- productVideo.liquid -->
 <span class="js-play-button active">
