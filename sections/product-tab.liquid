@@ -28,9 +28,12 @@
             <div class="prdtab-content row" style="opacity:0">
               {%- if collection != blank -%}
               {%- for product in collection.products limit: limit -%}
+              {% if product.handle contains 'copy-of-' or product.tags contains 'hidden-glue' %}
+              {% else %}
               <div class="producttab-item col" data-scroll data-scroll-speed="1">
                 {%- include 'product-card', product: product, collection: collection -%}
               </div>
+                {% endif %}
               {%- endfor -%}
               {%- else -%}
               {%- for i in (1..limit) -%}
