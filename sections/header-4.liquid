@@ -254,7 +254,11 @@
 }
 @media (max-width:991px) {
   .site-header__search-pop {
-    display: none;
+    /* display: none; */
+  }
+  .transcy-switcher-manual {
+    order: -1;
+    margin: 0;
   }
 }
 .site-header__search-pop .svg-search{
@@ -1535,7 +1539,7 @@ input[type=search]::-webkit-search-cancel-button {
             {%- include 'button-toggle-menu-mobile' -%}
           </div>
         </div>
-        <div class="col d-flex align-items-center justify-content-center justify-content-lg-start col-logo col-md-2 ">
+        <div style="text-align: center;" class="col d-flex align-items-center justify-content-center justify-content-lg-start col-logo col-md-2 ">
           <div class="pl-lg-0 ml-lg-0">
           {%- include 'site-logo' -%}
         </div>

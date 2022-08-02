@@ -2,10 +2,33 @@
   .categories {
     gap: 10px;
   }
+  #customBest {
+    font-weight: 600;
+    letter-spacing: 2px;
+    position: absolute;
+    background: white;
+    top: 10px;
+    left: 10px;
+    font-size: 10px;
+    padding: 4px 8px;
+    color: rgb(101, 101, 101);
+    z-index: 1000;
+  }
+  @media screen and (max-width: 767px) {
+    #customBest {
+      font-size: 9px;
+      letter-spacing: 0px;
+      top: 5px;
+      left: 5px;
+    }
+  }
 </style>
 <!-- product-grid-5.liquid -->
-<div class="product-card js-product-card product-card--style1 product-card--style5" data-price="{{ product.price }}">
-    <div class="product-card__image-wr overflow-hidden">
+<div style="position: relative;" class="product-card js-product-card product-card--style1 product-card--style5" data-price="{{ product.price }}">
+  <div class="product-card__image-wr overflow-hidden">
+      {% if product.metafields.custom.bestseller == true %}
+      <div id="customBest">{{ product.metafields.custom.badge_text }}</div>
+      {% endif %}
       {% if product.tags contains 'default-glue' %}
         {% for _product in collection.products %}
           {% if _product.title == product.title %}

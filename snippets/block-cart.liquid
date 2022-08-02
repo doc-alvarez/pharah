@@ -3,6 +3,14 @@
     font-size: 14px !important;
     padding-bottom: 10px !important;
   }
+  #instock {
+    width: 0.45rem;
+    display: inline-block;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: greenyellow;
+    box-shadow: 0 0 0 5px #8fe7b433;
+  }
 </style>
 <span class="site-header__link site-header__cart js-mini-cart {% if settings.cartdraw %} cardraw{% endif %}" data-cartmini="{{settings.cartdraw }}">
   <span class="js-toggle-cart" title="{{'cart.general.title' | t}}">
@@ -20,9 +28,24 @@
     <div class="mini-cart-taxes">
       {{'cart.general.taxes_and_shipping_at_checkout' | t}}
     </div>
+    {% comment %}
+    {% if cart.item_count != 0 %}
+    <div style="margin: 10px 0; text-align: center; width: 100%;background-color: transparent;">
+      {% assign seconds = 3 | times: 24 | times: 60 | times: 60 %}
+      
+      <div id="inStock_container" style="display: flex; align-items: center; gap:14px;">
+        <span id="instock">
+      </span>
+        <p>Delivered by {{ 'now' | date: "%s" | plus: seconds | date: "%B %d" }}  </p>
+      </div>
+
+
+    </div>
+    {% endif %}
+    {% endcomment %}
     <div class="mini-cart-btns mt-4">
       <a class="btn gradient-theme js-cart-btn-checkout btn-theme w-100 {% if cart.item_count == 0 %} disabled{% endif %}" href="/checkout">{{'cart.general.checkout' | t }}</a>
-      <a class="btn btn-link btn-sm js-cart-btn-cart" href="/cart">{{'cart.general.update' | t }}</a>
+      <!-- <a class="btn btn-link btn-sm js-cart-btn-cart" href="/cart">{{'cart.general.update' | t }}</a> -->
     </div>
     
     <!-- Start of Shopify Planet code snippet --> <link href="https://cdn.shopify.com/shopifycloud/shopify-planet/bundles/latest/snippet.css" rel="stylesheet" type="text/css" media="all"> {%- assign CURRENT_DATE = "now" | date: "%Y-%m-%dT%H:%MZ" -%} {%- assign ACTIVE_UNTIL = shop.metafields.shopify-planet.active-until | date: "%Y-%m-%dT%H:%MZ" -%} <script src="https://cdn.shopify.com/shopifycloud/shopify-planet/bundles/latest/snippet.js" async></script> {% if CURRENT_DATE < ACTIVE_UNTIL or request.design_mode %} <div class="shopify-planet-banner"> <img src="https://cdn.shopify.com/extensions/77a33867-106a-4608-bb7c-98fa40ed256a/0.25.0/assets/logo.png" width="34" height="30" loading="lazy"> <div class="shopify-planet-banner-title-container"> <div class="shopify-planet-banner-title">All deliveries are carbon neutral</div> <div class="shopify-planet-banner-subtitle">Powered by Shopify Planet</div> </div> </div> {% endif %} <!-- End of Shopify Planet code snippet -->
