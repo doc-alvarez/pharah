@@ -85,10 +85,7 @@
 {{ content_for_layout }}
         {%- if settings.enable_animationscroll -%}</div>{% endif%}
       </main>
-      {% if request.page_type == 'product' %}
-      {% section 'image-content-3' %}
       
-      {% endif %}
       {%- include 'footer' -%}
       {%- include 'popup-newsletter' -%}
      
